@@ -2,6 +2,8 @@ const User = require("../models/UserModel");
 // const obtainTokenUser = require("../utils/tokenUser");
 const { createToken } = require("../utils/token");
 const createHash = require("../utils/createHash");
+const asyncHandler = require("../utils/asyncHandler");
+const customError = require("../utils/customError");
 
 const {
   sendEmailVerification,
@@ -9,7 +11,7 @@ const {
 } = require("../utils/email");
 const crypto = require("crypto");
 
-const register = async (req, res) => {
+const register = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   if (!password || !email) {
     return res.status(400).json("Please fill all values");
@@ -39,9 +41,9 @@ const register = async (req, res) => {
   res.status(201).json({
     msg: "Success! Please check your email to verify account",
   });
-};
+});
 
-const verifyEmail = async (req, res) => {
+const verifyEmail = asyncHandler(async (req, res) => {
   const { token, email } = req.query;
   const user = await User.findOne({ email });
   console.log(req.query);
@@ -60,9 +62,10 @@ const verifyEmail = async (req, res) => {
   await user.save();
 
   res.status(200).json({ msg: "Email Verified" });
-};
+});
 
-const login = async (req, res) => {
+const login = asyncHandler(async (req, res) => {
+  console.log("Testing forgot password");
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: "Please provide all values" });
@@ -90,17 +93,17 @@ const login = async (req, res) => {
 
   // Return success response with user data
   res.status(200).json({ user: user, token });
-};
+});
 
-const logout = async (req, res) => {
+const logout = asyncHandler(async (req, res) => {
   res.cookie("token", "logout", {
     httpOnly: true,
     expires: new Date(Date.now() + 5 * 1000),
   });
   res.send("logout");
-};
+});
 
-const forgotPassword = async (req, res) => {
+const forgotPassword = asyncHandler(async (req, res) => {
   console.log("Got to forgot password endpoint");
   const { email } = req.body;
   if (!email) {
@@ -131,9 +134,9 @@ const forgotPassword = async (req, res) => {
   res
     .status(200)
     .json({ msg: "Please check your email for reset password link" });
-};
+});
 
-const resetPassword = async (req, res) => {
+const resetPassword = asyncHandler(async (req, res) => {
   const { password } = req.body;
   const { token, email } = req.query;
   if (!token || !email || !password) {
@@ -156,7 +159,7 @@ const resetPassword = async (req, res) => {
   }
 
   res.send("reset password");
-};
+});
 
 module.exports = {
   register,

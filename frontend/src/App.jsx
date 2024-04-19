@@ -13,7 +13,10 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Auth />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route
+          path="/reset-password/:token/:email"
+          element={<ResetPassword />}
+        />
         {/* <Route path="/home" element={<Home />} /> */}
         {/* <Route path="/access-keys" element={AccessKeys} /> */}
       </Routes>

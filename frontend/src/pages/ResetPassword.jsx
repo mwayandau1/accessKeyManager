@@ -9,24 +9,26 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleResetPassword = (e) => {
+  const handleResetPassword = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
       return;
     }
-    // Reset password
-    axios
-      .post(`http://localhost:5000/auth/reset-password/?${token}&${email}`, {
-        password,
-      })
-      .then((response) => {
-        setMessage(response.data.message);
-      })
-      .catch((error) => {
-        console.error("Error resetting password:", error);
-        setMessage("Error resetting password");
-      });
+
+    try {
+      // Reset password
+      const response = await axios.post(
+        `http://localhost:5000/auth/reset-password/${token}/${email}`,
+        {
+          password,
+        }
+      );
+      setMessage(response.data); // Assuming the response from the server is the message string
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      setMessage("Error resetting password");
+    }
   };
 
   return (
