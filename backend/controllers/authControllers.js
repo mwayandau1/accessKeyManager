@@ -14,11 +14,11 @@ const crypto = require("crypto");
 const register = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   if (!password || !email) {
-    return res.status(400).json("Please fill all values");
+    return next(customError("Please fill all values", 400));
   }
   const userAlreadyExist = await User.findOne({ email });
   if (userAlreadyExist) {
-    return res.status(400).json("This email is already in use!");
+    return next(customError("This email is already in use!", 400));
   }
   //Want to set the first user to register as Admin
   const isFirstUser = (await User.countDocuments({})) === 0;
@@ -31,7 +31,8 @@ const register = asyncHandler(async (req, res, next) => {
     role,
     verificationToken,
   });
-  const origin = "http://localhost:5000";
+  // const origin = "http://localhost:5000";
+  const origin = `${req.protocol}://${req.get("host")}/`;
 
   await sendEmailVerification({
     email: user.email,
@@ -49,11 +50,11 @@ const verifyEmail = asyncHandler(async (req, res) => {
   console.log(req.query);
 
   if (!user) {
-    res.status(400).json("Verification Failed");
+    return next(customError("Verification Failed", 400));
   }
 
   if (user.verificationToken !== token) {
-    res.status(400).json("Verification Failed");
+    return next(customError("Verification Failed", 400));
   }
 
   (user.isVerified = true), (user.verified = Date.now());
@@ -68,23 +69,21 @@ const login = asyncHandler(async (req, res) => {
   console.log("Testing forgot password");
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(400).json({ error: "Please provide all values" });
+    return next(customError("Please provide all values", 400));
   }
   const user = await User.findOne({ email });
   if (!user) {
     console.log("User not found");
-    return res.status(400).json({ error: "Invalid Credentials" });
+    return next(customError("Invalid Credentials", 400));
   }
 
   if (user.isVerified === false) {
-    return res
-      .status(400)
-      .json({ error: "Please verify your email to continue" });
+    return next(customError("Please verify your email to continue", 400));
   }
 
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
-    return res.status(400).json({ error: "Invalid credentials" });
+    return next(customError("Invalid credentials", 400));
   }
 
   const token = createToken({
@@ -107,7 +106,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   console.log("Got to forgot password endpoint");
   const { email } = req.body;
   if (!email) {
-    return res.status(400).json("Please provide a valid email");
+    return next(customError("Please provide a valid email", 400));
   }
 
   const user = await User.findOne({ email });
@@ -140,7 +139,7 @@ const resetPassword = asyncHandler(async (req, res) => {
   const { password } = req.body;
   const { token, email } = req.query;
   if (!token || !email || !password) {
-    return res.status(400).json("Please provide all values");
+    return next(customError("Please provide all values", 400));
   }
   const user = await User.findOne({ email });
 

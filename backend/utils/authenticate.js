@@ -1,4 +1,5 @@
 const { verifyToken } = require("./token");
+
 const authenticateUser = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
