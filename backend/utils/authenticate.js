@@ -1,11 +1,10 @@
+const CustomError = require("./customError");
 const { verifyToken } = require("./token");
 
 const authenticateUser = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res
-      .status(401)
-      .json({ error: "Authentication failed: Token missing" });
+    return next(new CustomError("Authentication failed: Token missing", 401));
   }
   const token = authHeader.split(" ")[1];
   try {
@@ -13,14 +12,14 @@ const authenticateUser = async (req, res, next) => {
     req.user = { email, id, role };
     next();
   } catch (err) {
-    return res.status(500).json({ error: "Token invalid" });
+    return next(new CustomError("Token invalid", 500));
   }
 };
 
 const authorizePermissions = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res.status(500).json("Unauthorized to access this route");
+      return next(new CustomError("Unauthorized to access this route", 500));
     }
     next();
   };
