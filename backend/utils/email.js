@@ -21,7 +21,7 @@ const sendEmail = async ({ to, subject, html }) => {
 };
 
 const sendResetPasswordEmail = async ({ name, email, token, origin }) => {
-  const resetURL = `${origin}/auth/reset-password?token=${token}&email=${email}`;
+  const resetURL = `${origin}/auth/reset-password/${token}`;
   const message = `<p>Please reset password by clicking on the following link :
   <a href="${resetURL}">Reset Password</a></p>`;
 
@@ -35,7 +35,7 @@ const sendResetPasswordEmail = async ({ name, email, token, origin }) => {
 };
 
 const sendEmailVerification = async ({ email, verificationToken, origin }) => {
-  const verifyEmail = `${origin}/auth/verify-email?token=${verificationToken}&email=${email}`;
+  const verifyEmail = `${origin}/auth/verify-email/${verificationToken}`;
   console.log(verifyEmail);
 
   const message = `<p>Please confirm your email by clicking on the following link :

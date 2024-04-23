@@ -22,7 +22,7 @@ const register = asyncHandler(async (req, res, next) => {
   }
   //Want to set the first user to register as Admin
   const isFirstUser = (await User.countDocuments({})) === 0;
-  const role = isFirstUser ? "admin" : "user";
+  const role = isFirstUser ? "admin" : "school";
   const verificationToken = crypto.randomBytes(40).toString("hex");
 
   const user = await User.create({
@@ -32,7 +32,8 @@ const register = asyncHandler(async (req, res, next) => {
     verificationToken,
   });
   // const origin = "http://localhost:5000";
-  const origin = `${req.protocol}://${req.get("host")}/`;
+  const origin = `${req.protocol}://${req.get("host")}`;
+  console.log(origin);
 
   await sendEmailVerification({
     email: user.email,
@@ -44,10 +45,10 @@ const register = asyncHandler(async (req, res, next) => {
   });
 });
 
-const verifyEmail = asyncHandler(async (req, res) => {
-  const { token, email } = req.params;
-  const user = await User.findOne({ email });
-  console.log(req.query);
+const verifyEmail = asyncHandler(async (req, res, next) => {
+  console.log("Here");
+  const { token } = req.params;
+  const user = await User.findOne({ verificationToken: token });
 
   if (!user) {
     return next(new customError("Verification Failed", 400));
@@ -65,15 +66,13 @@ const verifyEmail = asyncHandler(async (req, res) => {
   res.status(200).json({ msg: "Email Verified" });
 });
 
-const login = asyncHandler(async (req, res) => {
-  console.log("Testing forgot password");
+const login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return next(new customError("Please provide all values", 400));
   }
   const user = await User.findOne({ email });
   if (!user) {
-    console.log("User not found");
     return next(new customError("Invalid Credentials", 400));
   }
 
@@ -102,8 +101,7 @@ const logout = asyncHandler(async (req, res) => {
   res.send("logout");
 });
 
-const forgotPassword = asyncHandler(async (req, res) => {
-  console.log("Got to forgot password endpoint");
+const forgotPassword = asyncHandler(async (req, res, next) => {
   const { email } = req.body;
   if (!email) {
     return next(new customError("Please provide a valid email", 400));
@@ -135,7 +133,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
     .json({ msg: "Please check your email for reset password link" });
 });
 
-const resetPassword = asyncHandler(async (req, res) => {
+const resetPassword = asyncHandler(async (req, res, next) => {
   const { password } = req.body;
   const { token } = req.params;
   if (!token || !password) {
