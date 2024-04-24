@@ -71,7 +71,7 @@ const login = asyncHandler(async (req, res, next) => {
   if (!email || !password) {
     return next(new customError("Please provide all values", 400));
   }
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select("+password");
   if (!user) {
     return next(new customError("Invalid Credentials", 400));
   }
@@ -112,7 +112,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString("hex");
     // send email
-    const origin = `${req.protocol}://${req.get("host")}/auth/reset-password`;
+    const origin = `${req.protocol}://${req.get("host")}`;
     await sendResetPasswordEmail({
       name: user.name,
       email: user.email,
@@ -121,7 +121,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
     });
 
     const tenMinutes = 1000 * 60 * 10;
-    const passwordTokenExpirationDate = new Date(Date.now() + tenMinutes);
+    const passwordTokenExpirationDate = Date.now() + tenMinutes;
 
     user.passwordToken = createHash(passwordToken);
     user.passwordTokenExpirationDate = passwordTokenExpirationDate;
@@ -139,23 +139,18 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   if (!token || !password) {
     return next(new customError("Please provide all values", 400));
   }
-  const user = await User.findOne({ passwordToken: token });
+  const user = await User.findOne({
+    passwordToken: createHash(token),
+    passwordTokenExpirationDate: { $gt: Date.now() },
+  });
+  if (!user) return next(new customError("Invalid token or has expired"));
+  user.password = password;
+  user.passwordToken = null;
+  user.passwordTokenExpirationDate = null;
+  console.log("Set the null values of password token and expiry date");
+  await user.save();
 
-  if (user) {
-    const currentDate = new Date();
-
-    if (
-      user.passwordToken === createHash(token) &&
-      user.passwordTokenExpirationDate > currentDate
-    ) {
-      user.password = password;
-      user.passwordToken = null;
-      user.passwordTokenExpirationDate = null;
-      await user.save();
-    }
-  }
-
-  res.send("reset password");
+  res.send("Your password has being reset successfully!");
 });
 
 module.exports = {

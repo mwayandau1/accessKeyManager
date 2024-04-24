@@ -22,6 +22,7 @@ const sendEmail = async ({ to, subject, html }) => {
 
 const sendResetPasswordEmail = async ({ name, email, token, origin }) => {
   const resetURL = `${origin}/auth/reset-password/${token}`;
+  console.log(resetURL);
   const message = `<p>Please reset password by clicking on the following link :
   <a href="${resetURL}">Reset Password</a></p>`;
 
