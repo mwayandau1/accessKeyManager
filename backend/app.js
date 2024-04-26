@@ -9,12 +9,14 @@ const cors = require("cors");
 
 const authRoutes = require("./routes/authRoutes");
 const CustomError = require("./utils/customError");
+const keyRoutes = require("./routes/keyRoutes");
 
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(cors());
 
 app.use("/auth", authRoutes);
+app.use("/keys", keyRoutes);
 
 app.all("*", (req, res, next) => {
   next(new CustomError(`Can't find ${req.originalUrl} on this server!`, 404));
