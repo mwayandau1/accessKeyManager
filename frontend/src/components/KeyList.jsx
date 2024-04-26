@@ -4,7 +4,7 @@ import formatDate from "../features/formatDate";
 
 function KeyList({ accessKeys, getStatusColor, isAdmin, handleCopy }) {
   return (
-    <div>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {accessKeys.map((key) => (
           <li

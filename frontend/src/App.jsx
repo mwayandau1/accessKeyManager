@@ -6,6 +6,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
 import SingleKey from "./pages/SingleKey";
+import VerifyEmail from "./pages/VerifyEmail";
+import Layout from "./pages/Layout";
 // import AccessKeys from "./pages/AccessKeys";
 
 const App = () => {
@@ -13,9 +15,17 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Auth />} />
+        <Route path="/auth/verify-email/:token" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="/home" element={<Home />} />
+        <Route
+          path="/home"
+          element={
+            <Layout>
+              <Home />{" "}
+            </Layout>
+          }
+        />
         <Route path="keys/:id" element={<SingleKey />} />
         {/* <Route path="/access-keys" element={AccessKeys} /> */}
       </Routes>

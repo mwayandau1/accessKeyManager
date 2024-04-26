@@ -102,6 +102,7 @@ const logout = asyncHandler(async (req, res) => {
 });
 
 const forgotPassword = asyncHandler(async (req, res, next) => {
+  console.log("Got to forgot password");
   const { email } = req.body;
   if (!email) {
     return next(new customError("Please provide a valid email", 400));

@@ -16,7 +16,8 @@ const Auth = () => {
           "http://localhost:5000/auth/register",
           { email, password }
         );
-        setMessage(response.data.message);
+        setMessage(response.data.msg);
+        console.log(response.data);
       } else {
         const response = await axios.post("http://localhost:5000/auth/login", {
           email,
