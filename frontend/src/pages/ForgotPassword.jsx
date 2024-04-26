@@ -1,6 +1,7 @@
 // components/ForgotPassword.js
 import React, { useState } from "react";
 import axios from "axios";
+import { Form } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -8,15 +9,16 @@ const ForgotPassword = () => {
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
+    console.log("forgot password frontend");
 
     try {
-      // Send email to reset password
       const response = await axios.post(
         "http://localhost:5000/auth/forgot-password",
         {
           email,
         }
       );
+      console.log(response);
       setMessage(response.data.message);
     } catch (error) {
       console.error("Error sending reset password email:", error);
@@ -49,7 +51,7 @@ const ForgotPassword = () => {
             />
           </div>
           <button
-            onSubmit={handleForgotPassword}
+            onClick={handleForgotPassword}
             type="button"
             disabled={email === " "}
             className="bg-blue-500 text-white px-4 py-2 rounded-md w-full"

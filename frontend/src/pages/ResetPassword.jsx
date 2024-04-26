@@ -1,6 +1,6 @@
 // components/ResetPassword.js
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
 const ResetPassword = () => {
@@ -18,13 +18,13 @@ const ResetPassword = () => {
 
     try {
       // Reset password
-      const response = await axios.post(
-        `http://localhost:5000/auth/reset-password/${token}/${email}`,
+      const response = await axios.patch(
+        `http://localhost:5000/auth/reset-password/${token}`,
         {
           password,
         }
       );
-      setMessage(response.data); // Assuming the response from the server is the message string
+      setMessage(response.data.msg); // Assuming the response from the server is the message string
     } catch (error) {
       console.error("Error resetting password:", error);
       setMessage("Error resetting password");

@@ -51,8 +51,10 @@ const getAllKeys = asyncHandler(async (req, res, next) => {
 });
 
 const getSingleKeyById = asyncHandler(async (req, res, next) => {
+  console.log("Single key by id");
   const { id } = req.params;
   const key = await Key.findById(id);
+  console.log("found single key by id", key);
   if (!key) return next(new customError("No key found with this id", 404));
   console.log(key);
   return res.status(200).json(key);

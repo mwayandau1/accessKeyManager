@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/redux/userReducer";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignup, setIsSignup] = useState(false);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleAuth = async (e) => {
     e.preventDefault();
@@ -16,20 +20,30 @@ const Auth = () => {
           "http://localhost:5000/auth/register",
           { email, password }
         );
-        setMessage(response.data.message);
+        setMessage(response.data.msg);
+        console.log(response.data);
       } else {
         const response = await axios.post("http://localhost:5000/auth/login", {
           email,
           password,
         });
         setMessage(response.data.message);
-        localStorage.setItem("token", response.data.token);
+        const user = {
+          email: response.data.user.email,
+          role: response.data.user.role,
+          token: response.data.token,
+        };
+        localStorage.setItem("user", JSON.stringify(user));
+
+        dispatch(setUser(user));
         console.log(response.data);
-        window.location.href = "/home";
+        console.log(user);
+        navigate("/home");
       }
     } catch (error) {
       console.error("Error:", error);
-      setMessage("Error occurred");
+      setMessage(error?.response?.data?.msg || "An error occurred");
+      console.log(message);
     }
   };
 
@@ -39,7 +53,7 @@ const Auth = () => {
         <h2 className="text-2xl font-bold mb-4">
           {isSignup ? "Sign Up" : "Sign In"}
         </h2>
-        {message && <p className="text-center mb-4">{message}</p>}
+        {message && <p className="text-center mb-4 text-red-500">{message}</p>}
         <form onSubmit={handleAuth}>
           <div className="mb-4">
             <label

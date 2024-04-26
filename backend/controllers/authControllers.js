@@ -32,7 +32,7 @@ const register = asyncHandler(async (req, res, next) => {
     verificationToken,
   });
   // const origin = "http://localhost:5000";
-  const origin = `${req.protocol}://${req.get("host")}`;
+  const origin = `http://localhost:5173`;
   console.log(origin);
 
   await sendEmailVerification({
@@ -102,6 +102,7 @@ const logout = asyncHandler(async (req, res) => {
 });
 
 const forgotPassword = asyncHandler(async (req, res, next) => {
+  console.log("Got to forgot password");
   const { email } = req.body;
   if (!email) {
     return next(new customError("Please provide a valid email", 400));
@@ -112,7 +113,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString("hex");
     // send email
-    const origin = `${req.protocol}://${req.get("host")}`;
+    const origin = `http://localhost:5173`;
     await sendResetPasswordEmail({
       name: user.name,
       email: user.email,

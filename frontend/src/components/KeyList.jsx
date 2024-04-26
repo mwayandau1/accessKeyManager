@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import formatDate from "../features/formatDate";
+import NotFoundPage from "./NotFoundPage";
 
-function KeyList({ accessKeys, getStatusColor, isAdmin, handleCopy }) {
+function KeyList({
+  accessKeys,
+  getStatusColor,
+  handleCopy,
+  isAdmin,
+  handleRevoke,
+}) {
+  if (accessKeys.length <= 0) return <NotFoundPage />;
   return (
-    <div>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {accessKeys.map((key) => (
           <li
@@ -48,7 +56,7 @@ function KeyList({ accessKeys, getStatusColor, isAdmin, handleCopy }) {
             </Link>
             {isAdmin && key.status == "active" && (
               <button
-                onClick={() => handleRevoke(key.id)}
+                onClick={() => handleRevoke(key._id)}
                 className="mt-4 bg-red-500 text-white px-3 py-1 rounded-md self-center"
               >
                 Revoke
