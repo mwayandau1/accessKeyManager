@@ -24,10 +24,7 @@ const UserSchema = new mongoose.Schema({
     enum: ["admin", "school"],
     default: "school",
   },
-  accessKey: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Key",
-  },
+
   verificationToken: String,
   isVerified: {
     type: Boolean,

@@ -24,31 +24,37 @@ const createKey = asyncHandler(async (req, res, next) => {
 });
 
 const getAllKeys = asyncHandler(async (req, res, next) => {
-  const { active, revoked, expired } = req.params;
+  console.log("hitting the all route");
   if (req.user.role !== "admin") {
-    let keys = await Key.find({ user: req.user.id });
-    if (active) keys = keys.active;
-    if (revoked) keys = keys.revoked;
-    if (expired) keys = keys.expired;
+    const keys = await Key.find({ user: req.user.id });
+
     if (!keys) return next(new customError("No keys found with this id", 404));
     return res.status(200).json({ keys, count: keys.length });
   } else {
-    let keys = await Key.find({});
-    if (active) keys = keys.active;
-    if (revoked) keys = keys.revoked;
-    if (expired) keys = keys.expired;
+    const { email } = req.query;
+    if (email) {
+      const user = await User.findOne({ email });
+      if (!user)
+        return next(new customError("No user found with this email", 404));
+      const userId = user.id;
+      const keys = await Key.find({ user: userId });
+      if (!keys)
+        return next(new customError("No keys found for this user", 404));
+      return res.status(200).json({ keys, count: keys.length });
+    }
+    const keys = await Key.find({});
+
     if (!keys) return next(new customError("No keys found with this id", 404));
 
     return res.status(200).json({ keys, count: keys.length });
   }
 });
 
-const getKeysBySchoolEmail = asyncHandler(async (req, res, next) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
-  const userId = user.id;
-  const keys = Key.findById(userId);
-  return res.status(200).json({ keys, count: keys.length });
+const getSingleKeyById = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const key = await Key.findById(id);
+  if (!key) return next(new customError("No key found with this id", 404));
+  return res.status(200).json(key);
 });
 
 const revokedAccessKey = asyncHandler(async (req, res, next) => {
@@ -64,5 +70,5 @@ module.exports = {
   createKey,
   revokedAccessKey,
   getAllKeys,
-  getKeysBySchoolEmail,
+  getSingleKeyById,
 };
