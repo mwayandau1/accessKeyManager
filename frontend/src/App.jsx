@@ -8,7 +8,6 @@ import Home from "./pages/Home";
 import SingleKey from "./pages/SingleKey";
 import VerifyEmail from "./pages/VerifyEmail";
 import Layout from "./pages/Layout";
-// import AccessKeys from "./pages/AccessKeys";
 
 const App = () => {
   return (

@@ -3,11 +3,7 @@ import React from "react";
 const NotFoundPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <img
-        src="https://www.freepik.com/free-photos-vectors/404-found-png"
-        alt="404 Not Found"
-        className="h-64 mb-8"
-      />
+      <img src="../assets/404.avif" alt="404 Not Found" className="h-64 mb-8" />
       <h1 className="text-4xl font-bold text-gray-800 mb-4">404</h1>
       <p className="text-lg text-gray-600 mb-4">Page Not Found</p>
       <button
