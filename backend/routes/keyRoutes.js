@@ -9,6 +9,7 @@ const {
   getAllKeys,
   revokedAccessKey,
   getSingleKeyById,
+  searchKeyBySchoolEmail,
 } = require("../controllers/keyControllers");
 
 router.post("/", authenticateUser, createKey);
@@ -20,5 +21,10 @@ router.patch(
   authorizePermissions("admin"),
   revokedAccessKey
 );
-
+router.post(
+  "/email/",
+  authenticateUser,
+  authorizePermissions("admin"),
+  searchKeyBySchoolEmail
+);
 module.exports = router;
