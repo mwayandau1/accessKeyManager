@@ -24,27 +24,15 @@ const createKey = asyncHandler(async (req, res, next) => {
 });
 
 const getAllKeys = asyncHandler(async (req, res, next) => {
-  console.log("hitting the all route");
   if (req.user.role !== "admin") {
     const keys = await Key.find({ user: req.user.id });
 
-    if (!keys) return next(new customError("No keys found with this id", 404));
+    if (!keys) return next(new customError("No keys found ", 404));
     return res.status(200).json({ keys, count: keys.length });
   } else {
-    const { email } = req.query;
-    if (email) {
-      const user = await User.findOne({ email });
-      if (!user)
-        return next(new customError("No user found with this email", 404));
-      const userId = user.id;
-      const keys = await Key.find({ user: userId });
-      if (!keys)
-        return next(new customError("No keys found for this user", 404));
-      return res.status(200).json({ keys, count: keys.length });
-    }
     const keys = await Key.find({});
 
-    if (!keys) return next(new customError("No keys found with this id", 404));
+    if (!keys) return next(new customError("No keys found", 404));
 
     return res.status(200).json({ keys, count: keys.length });
   }
@@ -66,9 +54,24 @@ const revokedAccessKey = asyncHandler(async (req, res, next) => {
   return res.status(200).json("key revoked!");
 });
 
+const searchKeyBySchoolEmail = asyncHandler(async (req, res, next) => {
+  const { email } = req.body;
+  if (email) {
+    const user = await User.findOne({ email });
+    if (!user)
+      return next(new customError("No user found with this email", 404));
+    const userId = user.id;
+    const key = await Key.find({ user: userId, status: "active" });
+    if (!key)
+      return next(new customError("No active key found for this user", 404));
+    return res.status(200).json({ key });
+  }
+});
+
 module.exports = {
   createKey,
   revokedAccessKey,
   getAllKeys,
   getSingleKeyById,
+  searchKeyBySchoolEmail,
 };
