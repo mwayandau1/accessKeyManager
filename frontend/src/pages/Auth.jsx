@@ -13,21 +13,26 @@ const Auth = () => {
   const dispatch = useDispatch();
 
   const handleAuth = async (e) => {
+    console.log("Here at the auth page");
     e.preventDefault();
     try {
       if (isSignup) {
         const response = await axios.post(
-          "http://localhost:5000/auth/register",
+          "https://accesskeymanagerbackend.onrender.com/auth/register",
           { email, password }
         );
         setMessage(response.data.msg);
-        console.log(response.data);
       } else {
-        const response = await axios.post("http://localhost:5000/auth/login", {
-          email,
-          password,
-        });
+        console.log("Login request");
+        const response = await axios.post(
+          "https://accesskeymanagerbackend.onrender.com/auth/login",
+          {
+            email,
+            password,
+          }
+        );
         setMessage(response.data.message);
+        console.log(response);
         const user = {
           email: response.data.user.email,
           role: response.data.user.role,
@@ -36,8 +41,6 @@ const Auth = () => {
         localStorage.setItem("user", JSON.stringify(user));
 
         dispatch(setUser(user));
-        console.log(response.data);
-        console.log(user);
         navigate("/home");
       }
     } catch (error) {
@@ -50,7 +53,11 @@ const Auth = () => {
   return (
     <div className="container mx-auto flex justify-center items-center h-screen">
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96">
-        <h2 className="text-2xl font-bold mb-4">
+        <div className="text-2xl font-bold mb-4 text-center text-blue-500">
+          {isSignup ? "Micro-Focus Platform" : "Welcome back"}
+        </div>
+
+        <h2 className="text-2xl font-bold mb-4 text-center">
           {isSignup ? "Sign Up" : "Sign In"}
         </h2>
         {message && <p className="text-center mb-4 text-red-500">{message}</p>}
