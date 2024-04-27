@@ -10,22 +10,22 @@ const KeyPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { id } = useParams();
-  // const token = localStorage.getItem("token");
   const { user } = useSelector((state) => state.user);
-  const { token } = user;
+  const { token, email } = user;
 
   useEffect(() => {
     const fetchKey = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:5000/keys/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log(response);
+        const response = await axios.get(
+          `https://accesskeymanagerbackend.onrender.com/keys/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setKeyData(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (error) {
         setError(error.response.data.message || "An error occurred!");
@@ -59,6 +59,9 @@ const KeyPage = () => {
           </p>
           <p className="font-semibold">
             <strong>Expiry Date:</strong> {formatDate(expiryDate)}
+          </p>
+          <p className="font-semibold">
+            <strong>Email:</strong> {email}
           </p>
         </div>
       </div>
