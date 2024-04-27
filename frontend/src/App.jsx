@@ -1,15 +1,20 @@
 // App.js
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Auth from "./pages/Auth";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
 import SingleKey from "./pages/SingleKey";
 import VerifyEmail from "./pages/VerifyEmail";
-import Layout from "./pages/Layout";
 import SearchKey from "./pages/SearchKey";
-import Navbar from "./components/NavBar"; // Assuming you have a Navbar component
+import Navbar from "./components/NavBar";
+import { useSelector } from "react-redux";
 
 const App = () => {
   return (
@@ -56,12 +61,19 @@ const App = () => {
 };
 
 // Layout with Navbar
-const MainLayout = ({ children }) => (
-  <>
-    <Navbar />
-    <main>{children}</main>
-  </>
-);
+const MainLayout = ({ children }) => {
+  const { user } = useSelector((state) => state.user);
+  if (!user?.token) {
+    return <Navigate to="/" />;
+  }
+
+  return (
+    <>
+      <Navbar />
+      <main>{children}</main>
+    </>
+  );
+};
 
 // Layout without Navbar
 const AuthLayout = ({ children }) => <>{children}</>;
