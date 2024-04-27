@@ -25,7 +25,7 @@ const Home = () => {
     try {
       setCreatingKey(true);
       const response = await axios.post(
-        "http://localhost:5000/keys",
+        "https://accesskeymanagerbackend.onrender.com/keys",
         { keyName: newKeyName },
         {
           headers: {
@@ -46,11 +46,14 @@ const Home = () => {
   const handleFetchKeys = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/keys", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://accesskeymanagerbackend.onrender.com/keys",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setMessage(response.data.msg);
       setAccessKeys(response.data.keys);
       console.log(accessKeys);

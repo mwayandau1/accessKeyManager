@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import SingleKey from "./pages/SingleKey";
 import VerifyEmail from "./pages/VerifyEmail";
 import Layout from "./pages/Layout";
+import SearchKey from "./pages/SearchKey";
 
 const App = () => {
   return (
@@ -26,7 +27,7 @@ const App = () => {
           }
         />
         <Route path="keys/:id" element={<SingleKey />} />
-        {/* <Route path="/access-keys" element={AccessKeys} /> */}
+        <Route path="/search-key" element={<SearchKey />} />
       </Routes>
     </Router>
   );
