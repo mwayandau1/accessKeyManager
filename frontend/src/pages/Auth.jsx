@@ -13,6 +13,7 @@ const Auth = () => {
   const dispatch = useDispatch();
 
   const handleAuth = async (e) => {
+    console.log("Here at the auth page");
     e.preventDefault();
     try {
       if (isSignup) {
@@ -22,6 +23,7 @@ const Auth = () => {
         );
         setMessage(response.data.msg);
       } else {
+        console.log("Login request");
         const response = await axios.post(
           "https://accesskeymanagerbackend.onrender.com/auth/login",
           {
@@ -30,6 +32,7 @@ const Auth = () => {
           }
         );
         setMessage(response.data.message);
+        console.log(response);
         const user = {
           email: response.data.user.email,
           role: response.data.user.role,
