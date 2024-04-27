@@ -12,10 +12,10 @@ const NavBar = () => {
         </Link>
         <div className="hidden md:flex">
           <Link
-            to="/keys"
+            to="/search-key"
             className="text-white mr-4 hover:text-gray-200 transition duration-300 border-b-2 border-transparent"
           >
-            All Keys
+            Search Key
           </Link>
           <Link
             to="/create-key"
