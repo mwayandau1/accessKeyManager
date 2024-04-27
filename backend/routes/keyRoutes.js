@@ -23,7 +23,7 @@ router.patch(
   revokedAccessKey
 );
 router.post(
-  "/school/:email",
+  "/email/",
   authenticateUser,
   authorizePermissions("admin"),
   searchKeyBySchoolEmail

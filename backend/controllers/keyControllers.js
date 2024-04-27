@@ -55,12 +55,16 @@ const revokedAccessKey = asyncHandler(async (req, res, next) => {
 });
 
 const searchKeyBySchoolEmail = asyncHandler(async (req, res, next) => {
+  console.log("entered here");
   const { email } = req.body;
+  console.log(email);
   if (email) {
     const user = await User.findOne({ email });
+    console.log(user);
     if (!user)
       return next(new customError("No user found with this email", 404));
     const userId = user.id;
+    console.log(userId);
     const key = await Key.find({ user: userId, status: "active" });
     if (!key)
       return next(new customError("No active key found for this user", 404));
