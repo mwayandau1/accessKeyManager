@@ -50,7 +50,11 @@ const Auth = () => {
   return (
     <div className="container mx-auto flex justify-center items-center h-screen">
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96">
-        <h2 className="text-2xl font-bold mb-4">
+        <div className="text-2xl font-bold mb-4 text-center text-blue-500">
+          {isSignup ? "Micro-Focus Platform" : "Welcome back"}
+        </div>
+
+        <h2 className="text-2xl font-bold mb-4 text-center">
           {isSignup ? "Sign Up" : "Sign In"}
         </h2>
         {message && <p className="text-center mb-4 text-red-500">{message}</p>}
