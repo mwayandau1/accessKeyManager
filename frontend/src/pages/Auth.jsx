@@ -17,16 +17,18 @@ const Auth = () => {
     try {
       if (isSignup) {
         const response = await axios.post(
-          "http://localhost:5000/auth/register",
+          "https://accesskeymanagerbackend.onrender.com/auth/register",
           { email, password }
         );
         setMessage(response.data.msg);
-        console.log(response.data);
       } else {
-        const response = await axios.post("http://localhost:5000/auth/login", {
-          email,
-          password,
-        });
+        const response = await axios.post(
+          "https://accesskeymanagerbackend.onrender.com/auth/login",
+          {
+            email,
+            password,
+          }
+        );
         setMessage(response.data.message);
         const user = {
           email: response.data.user.email,
@@ -36,8 +38,6 @@ const Auth = () => {
         localStorage.setItem("user", JSON.stringify(user));
 
         dispatch(setUser(user));
-        console.log(response.data);
-        console.log(user);
         navigate("/home");
       }
     } catch (error) {
