@@ -6,7 +6,6 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import Auth from "./pages/Auth";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
@@ -15,19 +14,15 @@ import VerifyEmail from "./pages/VerifyEmail";
 import SearchKey from "./pages/SearchKey";
 import Navbar from "./components/NavBar";
 import { useSelector } from "react-redux";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <AuthLayout>
-              <Auth />
-            </AuthLayout>
-          }
-        />
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
@@ -60,7 +55,6 @@ const App = () => {
   );
 };
 
-// Layout with Navbar
 const MainLayout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
   if (!user?.token) {
@@ -74,8 +68,5 @@ const MainLayout = ({ children }) => {
     </>
   );
 };
-
-// Layout without Navbar
-const AuthLayout = ({ children }) => <>{children}</>;
 
 export default App;
