@@ -32,13 +32,10 @@ const register = asyncHandler(async (req, res, next) => {
     verificationToken,
   });
   // const origin = "http://localhost:5000";
-  const origin = `https://accesskeymanager.onrender.com`;
-  console.log(origin);
 
   await sendEmailVerification({
     email: user.email,
     verificationToken: user.verificationToken,
-    origin,
   });
   res.status(201).json({
     msg: "Success! Please check your email to verify account",
