@@ -38,7 +38,10 @@ const Login = () => {
   return (
     <div className="container mx-auto flex justify-center items-center h-screen">
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96">
-        <h2 className="text-2xl font-bold mb-4 text-center">Sign In</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center text-blue-500">
+          Welcome back to Micro Focus
+        </h2>
+        <h2 className="text-2xl font-bold mb-4 text-center"> Please Sign In</h2>
         {message && <p className="text-center mb-4 text-red-500">{message}</p>}
         <form onSubmit={handleLogin}>
           <InputField
@@ -65,7 +68,7 @@ const Login = () => {
           </p>
           <CustomButton>Sign In</CustomButton>
 
-          <p className="mt-2 mb-4 text-sm text-center">
+          <p className="mt-2 mb-4 text-sm text-center flex justify-center">
             Not a member yet?{" "}
             <Link to="/register" className="text-blue-500 hover:underline">
               Register
