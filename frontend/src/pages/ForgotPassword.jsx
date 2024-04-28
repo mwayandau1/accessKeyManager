@@ -13,7 +13,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/auth/forgot-password",
+        "https://accesskeymanagerbackend.onrender.com/auth/forgot-password",
         {
           email,
         }

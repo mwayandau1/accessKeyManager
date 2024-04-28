@@ -32,7 +32,7 @@ const register = asyncHandler(async (req, res, next) => {
     verificationToken,
   });
   // const origin = "http://localhost:5000";
-  const origin = `https://accesskeymanagerfrontend.onrender.com`;
+  const origin = `https://accesskeymanager.onrender.com`;
   console.log(origin);
 
   await sendEmailVerification({
@@ -113,7 +113,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString("hex");
     // send email
-    const origin = `https://accesskeymanagerfrontend.onrender.com`;
+    const origin = `https://accesskeymanager.onrender.com`;
     await sendResetPasswordEmail({
       name: user.name,
       email: user.email,
