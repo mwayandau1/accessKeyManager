@@ -10,7 +10,12 @@ function KeyList({
   isAdmin,
   handleRevoke,
 }) {
-  if (accessKeys.length <= 0) return <NotFoundPage />;
+  if (accessKeys.length <= 0)
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <p className="text-lg">You do not have active key yet</p>
+      </div>
+    );
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

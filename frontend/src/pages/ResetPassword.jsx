@@ -15,9 +15,9 @@ const ResetPassword = () => {
       setMessage("Passwords do not match");
       return;
     }
+    console.log(token);
 
     try {
-      // Reset password
       const response = await axios.patch(
         `https://accesskeymanagerbackend.onrender.com/auth/reset-password/${token}`,
         {
@@ -28,7 +28,7 @@ const ResetPassword = () => {
       navigate("/");
     } catch (error) {
       console.error("Error resetting password:", error);
-      setMessage("Error resetting password");
+      setMessage(error.response.data.msg || "Error resetting password");
     }
   };
 
@@ -71,6 +71,7 @@ const ResetPassword = () => {
           <button
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-md w-full"
+            disabled={password !== confirmPassword || !password}
           >
             Reset Password
           </button>
