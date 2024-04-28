@@ -1,7 +1,6 @@
 // components/ForgotPassword.js
 import React, { useState } from "react";
 import axios from "axios";
-import { Form } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +20,6 @@ const ForgotPassword = () => {
       console.log(response);
       setMessage(response.data.message);
     } catch (error) {
-      console.error("Error sending reset password email:", error);
       setMessage("Error sending reset password email");
     }
   };

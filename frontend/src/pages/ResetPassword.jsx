@@ -19,7 +19,7 @@ const ResetPassword = () => {
     try {
       // Reset password
       const response = await axios.patch(
-        `http://localhost:5000/auth/reset-password/${token}`,
+        `https://accesskeymanagerbackend.onrender.com/auth/reset-password/${token}`,
         {
           password,
         }
