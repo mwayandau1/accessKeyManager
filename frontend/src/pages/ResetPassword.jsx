@@ -1,10 +1,9 @@
-// components/ResetPassword.js
 import React, { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const ResetPassword = () => {
-  const { token, email } = useParams();
+  const { token } = useParams();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -36,7 +35,7 @@ const ResetPassword = () => {
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96">
         <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
         {message && <p className="text-center mb-4">{message}</p>}
-        <form>
+        <form onSubmit={handleResetPassword}>
           <div className="mb-4">
             <label
               htmlFor="password"
@@ -68,8 +67,7 @@ const ResetPassword = () => {
             />
           </div>
           <button
-            onSubmit={handleResetPassword}
-            type="button"
+            type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-md w-full"
           >
             Reset Password
