@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ResetPassword = () => {
@@ -7,6 +7,7 @@ const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -23,7 +24,8 @@ const ResetPassword = () => {
           password,
         }
       );
-      setMessage(response.data.msg); // Assuming the response from the server is the message string
+      setMessage(response.data.msg);
+      navigate("/");
     } catch (error) {
       console.error("Error resetting password:", error);
       setMessage("Error resetting password");
