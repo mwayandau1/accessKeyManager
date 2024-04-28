@@ -63,7 +63,7 @@ const App = () => {
 // Layout with Navbar
 const MainLayout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
-  if (!user?.token) {
+  if (!user || !user?.token) {
     return <Navigate to="/" />;
   }
 
