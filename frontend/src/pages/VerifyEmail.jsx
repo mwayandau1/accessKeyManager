@@ -10,7 +10,9 @@ const VerifyEmail = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/auth/verify-email/${token}`)
+      .get(
+        `https://accesskeymanagerbackend.onrender.com/auth/verify-email/${token}`
+      )
       .then((response) => {
         setMessage(response.data.message);
         setVerified(true);
