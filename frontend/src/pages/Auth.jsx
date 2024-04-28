@@ -94,12 +94,9 @@ const Auth = () => {
           </div>
           <p className="mt-2 mb-4 text-sm  flex justify-end">
             {!isSignup && (
-              <button
-                className=" text-gray-500 "
-                onClick={() => (window.location.href = "/forgot-password")}
-              >
+              <Link className=" text-gray-500 " to="/forgot-password">
                 Forgot your password?
-              </button>
+              </Link>
             )}
           </p>
 
