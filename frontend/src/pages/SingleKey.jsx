@@ -10,9 +10,13 @@ const KeyPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { id } = useParams();
+  const [isAdmin, setIsAdmin] = useState(false);
   const { user } = useSelector((state) => state.user);
-  const { token } = user;
+  const { token, role } = user;
 
+  useEffect(() => {
+    setIsAdmin(role === "admin");
+  }, [role]);
   useEffect(() => {
     const fetchKey = async () => {
       try {
@@ -26,7 +30,6 @@ const KeyPage = () => {
           }
         );
         setKeyData(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (error) {
         setError(error.response.data.message || "An error occurred!");
@@ -37,8 +40,26 @@ const KeyPage = () => {
     fetchKey();
   }, [id, token]);
 
+  const handleRevoke = async () => {
+    try {
+      const response = await axios.patch(
+        `https://accesskeymanagerbackend.onrender.com/keys/revoke-key/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error revoking key:", error);
+      throw error;
+    }
+  };
+
   if (loading) return <LoadingSpinner />;
-  if (error) return <p className="text-center mt-4">Error: {error}</p>;
+  if (error) return <p className="text-center mt-4 text-red-500">{error}</p>;
   if (!keyData)
     return <p className="text-center mt-4">No key data available</p>;
 
@@ -66,6 +87,14 @@ const KeyPage = () => {
           </p>
         </div>
       </div>
+      {isAdmin && status === "active" && (
+        <button
+          onClick={() => handleRevoke(key._id)}
+          className="mt-4 bg-red-500 text-white px-3 py-1 rounded-md self-center"
+        >
+          Revoke
+        </button>
+      )}
     </div>
   );
 };
