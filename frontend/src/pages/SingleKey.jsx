@@ -67,7 +67,7 @@ const KeyPage = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <h2 className="text-2xl font-bold mb-4">{keyName}</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">{keyName}</h2>
       <div className="bg-white shadow-md rounded px-8 py-6">
         <div className="mb-4">
           <p className="font-semibold">
