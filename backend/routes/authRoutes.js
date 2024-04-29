@@ -1,12 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const { authenticateUser } = require("../utils/authenticate");
-
 const {
   register,
   login,
-  logout,
   verifyEmail,
   forgotPassword,
   resetPassword,
@@ -14,7 +11,6 @@ const {
 
 router.post("/register", register);
 router.post("/login", login);
-router.delete("/logout", authenticateUser, logout);
 router.get("/verify-email/:token", verifyEmail);
 router.patch("/reset-password/:token", resetPassword);
 

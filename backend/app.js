@@ -18,6 +18,10 @@ app.use(cors());
 app.use("/auth", authRoutes);
 app.use("/keys", keyRoutes);
 
+app.get("/", (req, res) =>
+  res.send("Welcome to Micro Focus token generation API")
+);
+
 app.all("*", (req, res, next) => {
   next(new CustomError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
