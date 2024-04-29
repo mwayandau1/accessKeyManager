@@ -48,8 +48,16 @@ const getSingleKeyById = asyncHandler(async (req, res, next) => {
   const userId = key.user;
   const user = await User.findById(userId);
   const email = user.email;
-  console.log(email);
-  return res.status(200).json({ ...key, email });
+  const keyData = {
+    keyName: key.keyName,
+    key: key.key,
+    user: key.user,
+    email: email,
+    status: key.status,
+    procurementDate: key.procurementDate,
+    expiryDate: key.expiryDate,
+  };
+  return res.status(200).json(keyData);
 });
 
 const revokedAccessKey = asyncHandler(async (req, res, next) => {
