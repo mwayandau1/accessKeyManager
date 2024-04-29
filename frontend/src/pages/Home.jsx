@@ -65,27 +65,11 @@ const Home = () => {
     }
   };
 
-  const handleCopy = (key) => {
-    if (!navigator.clipboard) {
-      console.error("Clipboard API not supported");
-      return;
-    }
-
-    navigator.clipboard
-      .writeText(key)
-      .then(() => {
-        console.log("Key copied to clipboard");
-      })
-      .catch((error) => {
-        console.error("Error copying key to clipboard:", error);
-      });
-  };
-
   const handleRevoke = async (id) => {
     console.log("The id of the key passed", id);
     try {
       const response = await axios.patch(
-        `http://localhost:5000/keys/revoke-key/${id}`,
+        `https://accesskeymanagerbackend.onrender.com/keys/revoke-key/${id}`,
         {},
         {
           headers: {
@@ -113,25 +97,30 @@ const Home = () => {
   return (
     <div className="container mx-auto py-8">
       <h3>{message}</h3>
-      <div className="mb-4 flex items-center justify-center">
-        <input
-          type="text"
-          value={newKeyName}
-          onChange={(e) => setNewKeyName(e.target.value)}
-          placeholder="Enter key name"
-          className="mr-2 p-2 border rounded-md"
-        />
-        <button
-          onClick={handleCreateKey}
-          disabled={creatingKey}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md"
-        >
-          {creatingKey ? "Creating..." : "Create Key"}
-        </button>
-      </div>
-      <div>
-        <hr className="text-gray-700 mt-12 font-bold border-double" />
-      </div>
+      {!isAdmin && (
+        <>
+          <div className="mb-4 flex items-center justify-center">
+            <input
+              type="text"
+              value={newKeyName}
+              onChange={(e) => setNewKeyName(e.target.value)}
+              placeholder="Enter key name"
+              className="mr-2 p-2 border rounded-md"
+            />
+            <button
+              onClick={handleCreateKey}
+              disabled={creatingKey}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            >
+              {creatingKey ? "Creating..." : "Create Key"}
+            </button>
+          </div>
+          <div>
+            <hr className="text-gray-700 mt-12 font-bold border-double" />
+          </div>
+        </>
+      )}
+
       <div>
         <h2 className="text-2xl font-bold mb-4 text-center">All Access Keys</h2>
       </div>
@@ -141,7 +130,6 @@ const Home = () => {
         <KeyList
           accessKeys={accessKeys}
           getStatusColor={getStatusColor}
-          handleCopy={handleCopy}
           isAdmin={isAdmin}
           handleRevoke={handleRevoke}
         />
