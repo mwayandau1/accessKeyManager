@@ -1,4 +1,3 @@
-// components/VerifyEmail.js
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -10,7 +9,9 @@ const VerifyEmail = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/auth/verify-email/${token}`)
+      .get(
+        `https://accesskeymanagerbackend.onrender.com/auth/verify-email/${token}`
+      )
       .then((response) => {
         setMessage(response.data.message);
         setVerified(true);
