@@ -11,7 +11,7 @@ const KeyPage = () => {
   const [error, setError] = useState(null);
   const { id } = useParams();
   const { user } = useSelector((state) => state.user);
-  const { token, email } = user;
+  const { token } = user;
 
   useEffect(() => {
     const fetchKey = async () => {
@@ -26,6 +26,7 @@ const KeyPage = () => {
           }
         );
         setKeyData(response.data);
+        console.log(response.data);
         setLoading(false);
       } catch (error) {
         setError(error.response.data.message || "An error occurred!");
@@ -41,7 +42,7 @@ const KeyPage = () => {
   if (!keyData)
     return <p className="text-center mt-4">No key data available</p>;
 
-  const { keyName, key, status, procurementDate, expiryDate } = keyData;
+  const { keyName, key, status, procurementDate, expiryDate, email } = keyData;
 
   return (
     <div className="container mx-auto py-8">

@@ -45,7 +45,11 @@ const getSingleKeyById = asyncHandler(async (req, res, next) => {
   console.log("found single key by id", key);
   if (!key) return next(new customError("No key found with this id", 404));
   console.log(key);
-  return res.status(200).json(key);
+  const userId = key.user;
+  const user = await User.findById(userId);
+  const email = user.email;
+  console.log(email);
+  return res.status(200).json({ ...key, email });
 });
 
 const revokedAccessKey = asyncHandler(async (req, res, next) => {
