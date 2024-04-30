@@ -6,8 +6,10 @@ Access Key Manager is a web application designed to help users manage their acce
 
 - User Registration: Allows new users to create an account by providing their email and password.
 - Login: Existing users can log in to their account using their email and password.
-- Key Search: Users can search for access keys using various search criteria.
+- Key Search: Admin can search for access keys using various search criteria.
 - Password Reset: Users can reset their password if they forget it by providing their email address.
+- Admin can login, manage keys created on the platform
+- Admin can revoke keys created
 
 ## Technologies Used
 
@@ -16,18 +18,35 @@ Access Key Manager is a web application designed to help users manage their acce
 - **Database**: MongoDB
 - **Authentication**: JWT (JSON Web Tokens)
 
+## Environment Setup(.env)
+PORT=3000
+MONGO_URI ="Your_mongoDb Url"
+
+JWT_SECRET="Your jwt secret key"
+JWT_LIFE_TIME = "Jwt life time"
+
+APP_PASSWORD="Your google app password"
+EMAIL="Your real email account"
+
+
+
+##API Documentation
+https://documenter.getpostman.com/view/28559837/2sA3JDh5Xv
+
+
 ## Installation
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/username/access-key-manager.git
-cd access-key-manager/frontend
+git clone https://github.com/username/access-key-manager.git](https://github.com/mwayandau1/accessKeyManager.git
+cd accessKeyManager/frontend
 npm install
 cd ../backend
 npm install
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/access-key-manager
-JWT_SECRET=your_jwt_secret_key
-cd backend
 npm start
+
+
+
+
+
