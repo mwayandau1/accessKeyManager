@@ -29,6 +29,11 @@ APP_PASSWORD="Your google app password"
 EMAIL="Your real email account"
 
 
+
+##API Documentation
+https://documenter.getpostman.com/view/28559837/2sA3JDh5Xv
+
+
 ## Installation
 
 1. Clone the repository:
@@ -40,6 +45,7 @@ npm install
 cd ../backend
 npm install
 npm start
+
 
 
 
