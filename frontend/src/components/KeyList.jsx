@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import formatDate from "../features/formatDate";
-import NotFoundPage from "./NotFoundPage";
 
 function KeyList({ accessKeys, getStatusColor, isAdmin, handleRevoke }) {
   const [isCopied, setIsCopied] = useState(false);
@@ -26,7 +25,9 @@ function KeyList({ accessKeys, getStatusColor, isAdmin, handleRevoke }) {
   if (accessKeys.length <= 0)
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <p className="text-lg">You do not have active key yet</p>
+        <p className="text-lg">
+          {isAdmin ? "No keys created yet" : "You do not have  key yet"}
+        </p>
       </div>
     );
   return (
