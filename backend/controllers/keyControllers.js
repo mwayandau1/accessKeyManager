@@ -10,13 +10,11 @@ const createKey = asyncHandler(async (req, res, next) => {
   if (!userId) {
     return next(new customError("Please login to continue", 400));
   }
-  // Check if there's already an active key for the user
   const activeKey = await Key.findOne({ user: userId, status: "active" });
   if (activeKey) {
     return next(new customError("Active key already exists", 400));
   }
 
-  // Generate a new key
   const key = generateKey();
   const newKey = new Key({ keyName, key, user: userId });
   await newKey.save();
@@ -25,12 +23,12 @@ const createKey = asyncHandler(async (req, res, next) => {
 
 const getAllKeys = asyncHandler(async (req, res, next) => {
   if (req.user.role !== "admin") {
-    const keys = await Key.find({ user: req.user.id });
+    const keys = await Key.find({ user: req.user.id }).sort({ createdAt: -1 });
 
     if (!keys) return next(new customError("No keys found ", 404));
     return res.status(200).json({ keys, count: keys.length });
   } else {
-    const keys = await Key.find({});
+    const keys = await Key.find({}).sort({ createdAt: -1 });
 
     if (!keys) return next(new customError("No keys found", 404));
 

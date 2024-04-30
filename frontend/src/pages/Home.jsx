@@ -36,6 +36,7 @@ const Home = () => {
       setMessage(response.data.message);
       setCreatingKey(false);
       setNewKeyName("");
+      handleFetchKeys();
     } catch (error) {
       setCreatingKey(false);
       console.log(error);
