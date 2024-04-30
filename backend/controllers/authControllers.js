@@ -1,5 +1,4 @@
 const User = require("../models/UserModel");
-// const obtainTokenUser = require("../utils/tokenUser");
 const { createToken } = require("../utils/token");
 const createHash = require("../utils/createHash");
 const asyncHandler = require("../utils/asyncHandler");
