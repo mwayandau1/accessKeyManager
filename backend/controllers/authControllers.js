@@ -101,13 +101,11 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
 
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString("hex");
-    // send email
-    const origin = `https://accesskeymanager.onrender.com`;
+    // send email.onrender.com`;
     await sendResetPasswordEmail({
       name: user.name,
       email: user.email,
       token: passwordToken,
-      origin,
     });
 
     const tenMinutes = 1000 * 60 * 10;

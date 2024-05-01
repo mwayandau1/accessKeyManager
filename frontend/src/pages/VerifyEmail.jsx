@@ -25,7 +25,7 @@ const VerifyEmail = () => {
   }, []);
 
   return (
-    <div className="container mx-auto flex justify-center items-center h-screen">
+    <div className="container mx-auto flex justify-center items-center h-screen max-w-screen-lg">
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <h2 className="text-2xl font-bold mb-4">Verify Email</h2>
         <p className="text-center">{message}</p>
