@@ -1,7 +1,6 @@
 // components/ForgotPassword.js
 import React, { useState } from "react";
 import axios from "axios";
-import { Form } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -13,15 +12,14 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/auth/forgot-password",
+        "https://accesskeymanagerbackend.onrender.com/auth/forgot-password",
         {
           email,
         }
       );
       console.log(response);
-      setMessage(response.data.message);
+      setMessage(response.data.msg);
     } catch (error) {
-      console.error("Error sending reset password email:", error);
       setMessage("Error sending reset password email");
     }
   };

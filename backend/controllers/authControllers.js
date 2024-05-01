@@ -32,13 +32,10 @@ const register = asyncHandler(async (req, res, next) => {
     verificationToken,
   });
   // const origin = "http://localhost:5000";
-  const origin = `http://localhost:5173`;
-  console.log(origin);
 
   await sendEmailVerification({
     email: user.email,
     verificationToken: user.verificationToken,
-    origin,
   });
   res.status(201).json({
     msg: "Success! Please check your email to verify account",
@@ -93,14 +90,6 @@ const login = asyncHandler(async (req, res, next) => {
   res.status(200).json({ user: user, token });
 });
 
-const logout = asyncHandler(async (req, res) => {
-  res.cookie("token", "logout", {
-    httpOnly: true,
-    expires: new Date(Date.now() + 5 * 1000),
-  });
-  res.send("logout");
-});
-
 const forgotPassword = asyncHandler(async (req, res, next) => {
   console.log("Got to forgot password");
   const { email } = req.body;
@@ -112,13 +101,11 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
 
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString("hex");
-    // send email
-    const origin = `http://localhost:5173`;
+    // send email.onrender.com`;
     await sendResetPasswordEmail({
       name: user.name,
       email: user.email,
       token: passwordToken,
-      origin,
     });
 
     const tenMinutes = 1000 * 60 * 10;
@@ -157,7 +144,6 @@ const resetPassword = asyncHandler(async (req, res, next) => {
 module.exports = {
   register,
   login,
-  logout,
   verifyEmail,
   forgotPassword,
   resetPassword,

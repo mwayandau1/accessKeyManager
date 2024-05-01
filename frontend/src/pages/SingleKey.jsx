@@ -10,9 +10,14 @@ const KeyPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { id } = useParams();
+  const [isAdmin, setIsAdmin] = useState(false);
   const { user } = useSelector((state) => state.user);
-  const { token, email } = user;
+  const { token, role } = user;
+  const [revoked, setRevoked] = useState(false);
 
+  useEffect(() => {
+    setIsAdmin(role === "admin");
+  }, [role]);
   useEffect(() => {
     const fetchKey = async () => {
       try {
@@ -36,16 +41,35 @@ const KeyPage = () => {
     fetchKey();
   }, [id, token]);
 
+  const handleRevoke = async () => {
+    try {
+      const response = await axios.patch(
+        `https://accesskeymanagerbackend.onrender.com/keys/revoke-key/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setRevoked(true);
+      return response.data;
+    } catch (error) {
+      console.error("Error revoking key:", error);
+      throw error;
+    }
+  };
+
   if (loading) return <LoadingSpinner />;
-  if (error) return <p className="text-center mt-4">Error: {error}</p>;
+  if (error) return <p className="text-center mt-4 text-red-500">{error}</p>;
   if (!keyData)
     return <p className="text-center mt-4">No key data available</p>;
 
-  const { keyName, key, status, procurementDate, expiryDate } = keyData;
+  const { keyName, key, status, procurementDate, expiryDate, email } = keyData;
 
   return (
     <div className="container mx-auto py-8">
-      <h2 className="text-2xl font-bold mb-4">{keyName}</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">{keyName}</h2>
       <div className="bg-white shadow-md rounded px-8 py-6">
         <div className="mb-4">
           <p className="font-semibold">
@@ -65,6 +89,14 @@ const KeyPage = () => {
           </p>
         </div>
       </div>
+      {isAdmin && status === "active" && (
+        <button
+          onClick={() => handleRevoke(key._id)}
+          className="mt-4 bg-red-500 text-white px-3 py-1 rounded-md self-center"
+        >
+          {revoked ? "Revoked" : "Revoke"}
+        </button>
+      )}
     </div>
   );
 };

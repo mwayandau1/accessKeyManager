@@ -1,13 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { useSelector } from "react-redux";
+import UserHeader from "./UserHeader";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
   const handleLogout = () => {
-    localStorage.clear("token");
     navigate("/");
+    localStorage.removeItem("token");
   };
 
   return (
@@ -25,7 +26,8 @@ const NavBar = () => {
           </div>
         )}
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center gap-4">
+        <UserHeader user={user} email={user.email} />
         <button
           onClick={handleLogout}
           className="bg-white text-blue-500 px-4 py-2 rounded-md hover:bg-blue-50 transition duration-300"
