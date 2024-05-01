@@ -22,8 +22,6 @@ const sendEmail = async ({ to, subject, html }) => {
 
 const sendResetPasswordEmail = async ({ name, email, token }) => {
   const resetURL = `https://accesskeymanager.onrender.com/reset-password/${token}`;
-  //const resetURL = `http://127.0.0.1:5173/reset-password/${token}`;
-  console.log(resetURL);
   const message = `<p>Please reset password by clicking on the following link :
   <a href="${resetURL}">Reset Password</a></p>`;
 
@@ -36,8 +34,8 @@ const sendResetPasswordEmail = async ({ name, email, token }) => {
   });
 };
 
-const sendEmailVerification = async ({ email, verificationToken, origin }) => {
-  const verifyEmail = `${origin}/verify-email/${verificationToken}`;
+const sendEmailVerification = async ({ email, verificationToken }) => {
+  const verifyEmail = `https://accesskeymanager.onrender.com/verify-email/${verificationToken}`;
   console.log(verifyEmail);
 
   const message = `<p>Please confirm your email by clicking on the following link :

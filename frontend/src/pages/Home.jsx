@@ -78,10 +78,11 @@ const Home = () => {
           },
         }
       );
-      return response.data;
+      setMessage(response.data);
+      console.log(response.data);
+      handleFetchKeys();
     } catch (error) {
       console.error("Error revoking key:", error);
-      throw error;
     }
   };
 
