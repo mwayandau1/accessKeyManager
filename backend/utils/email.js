@@ -12,7 +12,7 @@ const nodemailerConfig = {
 const sendEmail = async ({ to, subject, html }) => {
   const transporter = nodemailer.createTransport(nodemailerConfig);
 
-  return transporter.sendMail({
+  return await transporter.sendMail({
     from: '"Micro Focus Inc." <microfocusin@gmail.com>', // sender address
     to,
     subject,
@@ -25,7 +25,7 @@ const sendResetPasswordEmail = async ({ name, email, token }) => {
   const message = `<p>Please reset password by clicking on the following link :
   <a href="${resetURL}">Reset Password</a></p>`;
 
-  return sendEmail({
+  return await sendEmail({
     to: email,
     subject: "Reset Password",
     html: `<h4>Hello, ${email}</h4>
@@ -42,7 +42,7 @@ const sendEmailVerification = async ({ email, verificationToken }) => {
     <a href="${verifyEmail}">Verify Email</a> </p>`;
   console.log(message);
 
-  return sendEmail({
+  return await sendEmail({
     to: email,
     subject: "Email Confirmation",
     html: `<h4> Hello, ${email}</h4>

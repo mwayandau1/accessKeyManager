@@ -1,5 +1,4 @@
 const User = require("../models/UserModel");
-// const obtainTokenUser = require("../utils/tokenUser");
 const { createToken } = require("../utils/token");
 const createHash = require("../utils/createHash");
 const asyncHandler = require("../utils/asyncHandler");
@@ -31,8 +30,6 @@ const register = asyncHandler(async (req, res, next) => {
     role,
     verificationToken,
   });
-  // const origin = "http://localhost:5000";
-
   await sendEmailVerification({
     email: user.email,
     verificationToken: user.verificationToken,
@@ -49,10 +46,7 @@ const verifyEmail = asyncHandler(async (req, res, next) => {
 
   if (!user) {
     return next(new customError("Verification Failed", 400));
-  }
-
-  if (user.verificationToken !== token) {
-    return next(new customError("Verification Failed", 400));
+    // return res.status(400).jso({"msg": "error wrong message"})
   }
 
   (user.isVerified = true), (user.verified = Date.now());
@@ -73,9 +67,9 @@ const login = asyncHandler(async (req, res, next) => {
     return next(new customError("Invalid Credentials", 400));
   }
 
-  if (user.isVerified === false) {
-    return next(new customError("Please verify your email to continue", 400));
-  }
+  // if (user.isVerified === false) {
+  //   return next(new customError("Please verify your email to continue", 400));
+  // }
 
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
@@ -131,14 +125,14 @@ const resetPassword = asyncHandler(async (req, res, next) => {
     passwordToken: createHash(token),
     passwordTokenExpirationDate: { $gt: Date.now() },
   });
-  if (!user) return next(new customError("Invalid token or has expired"));
+  if (!user) return next(new customError("Invalid token or has expired", 400));
   user.password = password;
   user.passwordToken = null;
   user.passwordTokenExpirationDate = null;
   console.log("Set the null values of password token and expiry date");
   await user.save();
 
-  res.send("Your password has being reset successfully!");
+  res.json({ msg: "Your password has being reset successfully!" });
 });
 
 module.exports = {
