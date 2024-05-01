@@ -37,7 +37,7 @@ const sendResetPasswordEmail = async ({ name, email, token }) => {
 };
 
 const sendEmailVerification = async ({ email, verificationToken }) => {
-  const verifyEmail = `https://accesskeymanager.onrender.com/reset-password/verify-email/${verificationToken}`;
+  const verifyEmail = `https://accesskeymanager.onrender.com/verify-email/${verificationToken}`;
   console.log(verifyEmail);
 
   const message = `<p>Please confirm your email by clicking on the following link :
