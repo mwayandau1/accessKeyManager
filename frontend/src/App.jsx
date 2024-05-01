@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
+  useNavigate,
 } from "react-router-dom";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
@@ -56,9 +56,10 @@ const App = () => {
 };
 
 const MainLayout = ({ children }) => {
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
   if (!user || !user?.token) {
-    return <Navigate to="/" />;
+    return navigate("/");
   }
 
   return (

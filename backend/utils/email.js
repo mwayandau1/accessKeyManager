@@ -22,15 +22,13 @@ const sendEmail = async ({ to, subject, html }) => {
 
 const sendResetPasswordEmail = async ({ name, email, token }) => {
   const resetURL = `https://accesskeymanager.onrender.com/reset-password/${token}`;
-  //const resetURL = `http://127.0.0.1:5173/reset-password/${token}`;
-  console.log(resetURL);
   const message = `<p>Please reset password by clicking on the following link :
   <a href="${resetURL}">Reset Password</a></p>`;
 
   return sendEmail({
     to: email,
     subject: "Reset Password",
-    html: `<h4>Hello, ${name}</h4>
+    html: `<h4>Hello, ${email}</h4>
    ${message}
    `,
   });
