@@ -1,3 +1,9 @@
+/**
+ *
+ * Before you run the test, make sure comment the "start()" function call in app.js
+ * This is to make sure the mongo0se url is running twice
+ */
+
 const request = require("supertest");
 const app = require("../app");
 const mongoose = require("mongoose");

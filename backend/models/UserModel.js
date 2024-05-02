@@ -1,3 +1,8 @@
+/**
+ * User model(Entity)
+ * fields:email, password, role, verificationToken, isVerified, verified, passwordToken,  passwordTokenExpirationDate
+ */
+
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");

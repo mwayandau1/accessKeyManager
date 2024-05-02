@@ -1,9 +1,14 @@
+/**
+ *
+ * Before you run the test, make sure comment the "start()" function call in app.js
+ * This is to make sure the mongo0se url is running twice
+ */
+
 const request = require("supertest");
 const app = require("../app"); // Assuming your Express app is exported from app.js
 const User = require("../models/UserModel");
 const Key = require("../models/KeyModel");
 const mongoose = require("mongoose");
-const { authenticateUser } = require("../utils/authenticate");
 
 describe("Key API Endpoints", () => {
   let authToken;
@@ -33,7 +38,7 @@ describe("Key API Endpoints", () => {
     await mongoose.connection.close();
   });
 
-  xit("should create a new key", async () => {
+  it("should create a new key", async () => {
     const keyData = {
       keyName: "Test Key",
     };
@@ -52,7 +57,7 @@ describe("Key API Endpoints", () => {
   }, 10000);
 
   // Test case for getting all keys
-  xit("should get all keys", async () => {
+  it("should get all keys", async () => {
     const response = await request(app)
       .get("/keys")
       .set("Authorization", `Bearer ${authToken}`);
@@ -81,7 +86,7 @@ describe("Key API Endpoints", () => {
   }, 10000);
 
   // Test case for searching key by school email
-  xit("should search for a key by school email", async () => {
+  it("should search for a key by school email", async () => {
     const email = "test@example.com";
 
     const response = await request(app)
@@ -93,7 +98,7 @@ describe("Key API Endpoints", () => {
     expect(response.body).toHaveProperty("key");
   }, 10000);
 
-  xit("should revoke a key", async () => {
+  it("should revoke a key", async () => {
     // Generate a unique key value
     const uniqueKey = `mockKey_${Date.now()}`;
 
