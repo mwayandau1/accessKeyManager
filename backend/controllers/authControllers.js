@@ -122,23 +122,23 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   }
 
   const user = await User.findOne({ email });
-
-  if (user) {
-    const passwordToken = crypto.randomBytes(70).toString("hex");
-    // send email.onrender.com`;
-    await sendResetPasswordEmail({
-      email: user.email,
-      token: passwordToken,
-    });
-
-    const tenMinutes = 1000 * 60 * 10;
-    const passwordTokenExpirationDate = Date.now() + tenMinutes;
-
-    user.passwordToken = createHash(passwordToken);
-    user.passwordTokenExpirationDate = passwordTokenExpirationDate;
-    await user.save();
+  if (!user) {
+    return next(new customError("No email found for this user", 400));
   }
 
+  const passwordToken = crypto.randomBytes(70).toString("hex");
+  // send email.onrender.com`;
+  await sendResetPasswordEmail({
+    email: user.email,
+    token: passwordToken,
+  });
+
+  const tenMinutes = 1000 * 60 * 10;
+  const passwordTokenExpirationDate = Date.now() + tenMinutes;
+
+  user.passwordToken = createHash(passwordToken);
+  user.passwordTokenExpirationDate = passwordTokenExpirationDate;
+  await user.save();
   res
     .status(200)
     .json({ msg: "Please check your email for reset password link" });
