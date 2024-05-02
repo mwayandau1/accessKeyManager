@@ -1,6 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
+// eslint-disable-next-line react/prop-types
 const CustomButton = ({ to, onClick, children }) => {
   if (to) {
     return (

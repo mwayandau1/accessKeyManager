@@ -1,5 +1,4 @@
-import React from "react";
-
+// eslint-disable-next-line react/prop-types
 const InputField = ({ type, id, value, onChange, label }) => {
   return (
     <div className="mb-4">
