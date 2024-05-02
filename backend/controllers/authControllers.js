@@ -123,7 +123,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
 
   const user = await User.findOne({ email });
   if (!user) {
-    return next(new customError("No email found for this user", 400));
+    return next(new customError("No email found for this user", 404));
   }
 
   const passwordToken = crypto.randomBytes(70).toString("hex");

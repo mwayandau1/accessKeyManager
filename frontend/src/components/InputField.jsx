@@ -6,6 +6,7 @@ const InputField = ({ type, id, value, onChange, label }) => {
         {label}
       </label>
       <input
+        required
         type={type}
         id={id}
         value={value}
