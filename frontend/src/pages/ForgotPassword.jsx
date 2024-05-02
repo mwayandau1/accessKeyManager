@@ -1,10 +1,12 @@
 // components/ForgotPassword.js
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
@@ -17,8 +19,8 @@ const ForgotPassword = () => {
           email,
         }
       );
-      console.log(response);
       setMessage(response.data.msg);
+      navigate(`/email-sent/${email}`);
     } catch (error) {
       setMessage("Error sending reset password email");
     }
