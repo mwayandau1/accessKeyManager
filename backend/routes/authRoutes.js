@@ -12,6 +12,7 @@ const {
   verifyEmail,
   forgotPassword,
   resetPassword,
+  resendPasswordResetLink,
 } = require("../controllers/authControllers");
 
 router.post("/register", register);
@@ -20,5 +21,6 @@ router.get("/verify-email/:token", verifyEmail);
 router.patch("/reset-password/:token", resetPassword);
 
 router.post("/forgot-password", forgotPassword);
+router.post("/resend-reset-password", resendPasswordResetLink);
 
 module.exports = router;

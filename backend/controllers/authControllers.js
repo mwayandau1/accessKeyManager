@@ -127,7 +127,6 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
     const passwordToken = crypto.randomBytes(70).toString("hex");
     // send email.onrender.com`;
     await sendResetPasswordEmail({
-      name: user.name,
       email: user.email,
       token: passwordToken,
     });
@@ -167,7 +166,29 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   console.log("Set the null values of password token and expiry date");
   await user.save();
 
-  res.json({ msg: "Your password has being reset successfully!" });
+  res.status(200).json({ msg: "Your password has being reset successfully!" });
+});
+
+const resendPasswordResetLink = asyncHandler(async (req, res, next) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+
+  if (user) {
+    const passwordToken = crypto.randomBytes(70).toString("hex");
+    // send email.onrender.com`;
+    await sendResetPasswordEmail({
+      email: user.email,
+      token: passwordToken,
+    });
+
+    const tenMinutes = 1000 * 60 * 10;
+    const passwordTokenExpirationDate = Date.now() + tenMinutes;
+
+    user.passwordToken = createHash(passwordToken);
+    user.passwordTokenExpirationDate = passwordTokenExpirationDate;
+    await user.save();
+  }
+  return res.status(200).json({ msg: "Reset password link resent!" });
 });
 
 module.exports = {
@@ -176,4 +197,5 @@ module.exports = {
   verifyEmail,
   forgotPassword,
   resetPassword,
+  resendPasswordResetLink,
 };
