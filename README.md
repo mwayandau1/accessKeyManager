@@ -1,6 +1,6 @@
 # Access Key Manager
 
-Access Key Manager is a web application designed to help users manage their access keys securely. It provides features such as user registration, login, key search, and password reset functionality.
+Access Key Manager is a web application designed to help schools to generate access key to activate their school account It provides features such as user registration, login, key search,email verification and password reset functionality.
 
 ## Features
 
