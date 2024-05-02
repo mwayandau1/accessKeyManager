@@ -1,5 +1,5 @@
-import React from "react";
-
+/* eslint-disable react/prop-types */
+// eslint-disable-next-line react/prop-types
 function UserHeader({ user, email }) {
   return (
     <div className="text-lg font-bold">

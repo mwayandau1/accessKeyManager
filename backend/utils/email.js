@@ -10,9 +10,12 @@ const nodemailerConfig = {
 };
 
 const sendEmail = async ({ to, subject, html }) => {
+  /**
+   * creating a nodemailer transport
+   */
   const transporter = nodemailer.createTransport(nodemailerConfig);
 
-  return transporter.sendMail({
+  return await transporter.sendMail({
     from: '"Micro Focus Inc." <microfocusin@gmail.com>', // sender address
     to,
     subject,
@@ -20,12 +23,17 @@ const sendEmail = async ({ to, subject, html }) => {
   });
 };
 
-const sendResetPasswordEmail = async ({ name, email, token }) => {
+const sendResetPasswordEmail = async ({ email, token }) => {
+  /**
+   * Sends password reset link to user
+   * @param:email and token
+   * @return:sends email to user
+   */
   const resetURL = `https://accesskeymanager.onrender.com/reset-password/${token}`;
   const message = `<p>Please reset password by clicking on the following link :
   <a href="${resetURL}">Reset Password</a></p>`;
 
-  return sendEmail({
+  return await sendEmail({
     to: email,
     subject: "Reset Password",
     html: `<h4>Hello, ${email}</h4>
@@ -35,6 +43,11 @@ const sendResetPasswordEmail = async ({ name, email, token }) => {
 };
 
 const sendEmailVerification = async ({ email, verificationToken }) => {
+  /**
+   * Send email verification token to user
+   * @param:email, and verificationToken
+   * return:Send an email to user
+   */
   const verifyEmail = `https://accesskeymanager.onrender.com/verify-email/${verificationToken}`;
   console.log(verifyEmail);
 
@@ -42,7 +55,7 @@ const sendEmailVerification = async ({ email, verificationToken }) => {
     <a href="${verifyEmail}">Verify Email</a> </p>`;
   console.log(message);
 
-  return sendEmail({
+  return await sendEmail({
     to: email,
     subject: "Email Confirmation",
     html: `<h4> Hello, ${email}</h4>

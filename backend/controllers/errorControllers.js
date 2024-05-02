@@ -1,3 +1,11 @@
+/**
+ * Error controller
+ * Catches all error related to mongoDb
+ * Returns password error message
+ * Allows reusability of code
+ * Catches ValidationError DuplicateKeyError CastError JsonWebTokenError TokenExpiredError
+ */
+
 const CustomError = require("../utils/customError");
 const errorHandlerMiddleware = (err, req, res, next) => {
   let customError = {

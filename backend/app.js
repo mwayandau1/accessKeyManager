@@ -6,14 +6,16 @@ const connectDB = require("./dbConnection/dbConfig");
 const globalErrorHandler = require("./controllers/errorControllers");
 const morgan = require("morgan");
 const cors = require("cors");
+const helmet = require("helmet");
 
 const authRoutes = require("./routes/authRoutes");
 const CustomError = require("./utils/customError");
 const keyRoutes = require("./routes/keyRoutes");
-
+app.use(helmet());
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(cors());
+app.set("trust proxy", true);
 
 app.use("/auth", authRoutes);
 app.use("/keys", keyRoutes);
@@ -39,3 +41,5 @@ const start = async () => {
 };
 
 start();
+
+module.exports = app;
