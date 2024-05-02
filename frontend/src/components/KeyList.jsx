@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import formatDate from "../features/formatDate";
-import NotFoundPage from "./NotFoundPage";
 
 function KeyList({ accessKeys, getStatusColor, isAdmin, handleRevoke }) {
   const [isCopied, setIsCopied] = useState(false);
