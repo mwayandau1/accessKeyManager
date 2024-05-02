@@ -38,6 +38,6 @@ const start = async () => {
   }
 };
 
-// start();
+start();
 
 module.exports = app;
