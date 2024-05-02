@@ -1,3 +1,12 @@
+/**
+ * Authentication controller
+ * Register
+ * Verify email
+ * Login
+ * Forgot password
+ * Reset password
+ */
+
 const User = require("../models/UserModel");
 const { createToken } = require("../utils/token");
 const createHash = require("../utils/createHash");
@@ -11,6 +20,12 @@ const {
 const crypto = require("crypto");
 
 const register = asyncHandler(async (req, res, next) => {
+  /**
+   * Registration controller
+   *@find:Finds if there is already an email in use
+   @params:Takes email and password
+   @return:Returns a success message telling user to verify email through an email message
+   */
   const { email, password } = req.body;
   if (!password || !email) {
     return next(new customError("Please fill all values", 400));
@@ -40,7 +55,12 @@ const register = asyncHandler(async (req, res, next) => {
 });
 
 const verifyEmail = asyncHandler(async (req, res, next) => {
-  console.log("Here");
+  /***
+   * Email verification controller
+   * @function:Verifies users account if token is valid
+   * @params:Take token from sent email link
+   * @return:Returns a message indicating a user is verified
+   */
   const { token } = req.params;
   const user = await User.findOne({ verificationToken: token });
 
@@ -58,6 +78,12 @@ const verifyEmail = asyncHandler(async (req, res, next) => {
 });
 
 const login = asyncHandler(async (req, res, next) => {
+  /***
+   * Login controller
+   * @function:Logs user in
+   * @prams:Takes email and password from body
+   * @return:Returns user with jwt token if user is found in the database
+   */
   const { email, password } = req.body;
   if (!email || !password) {
     return next(new customError("Please provide all values", 400));
@@ -85,7 +111,11 @@ const login = asyncHandler(async (req, res, next) => {
 });
 
 const forgotPassword = asyncHandler(async (req, res, next) => {
-  console.log("Got to forgot password");
+  /**
+   * Forgot password controller
+   * @function:Allow user to get link to reset password
+   * @params:Takes email from body and sends an email for user to reset the password
+   */
   const { email } = req.body;
   if (!email) {
     return next(new customError("Please provide a valid email", 400));
@@ -116,6 +146,11 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
 });
 
 const resetPassword = asyncHandler(async (req, res, next) => {
+  /**
+   * Reset password controller
+   * @function:Allow user to reset forgotten password
+   * @params:Take token, password from params and body respectively
+   */
   const { password } = req.body;
   const { token } = req.params;
   if (!token || !password) {

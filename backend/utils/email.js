@@ -10,6 +10,9 @@ const nodemailerConfig = {
 };
 
 const sendEmail = async ({ to, subject, html }) => {
+  /**
+   * creating a nodemailer transport
+   */
   const transporter = nodemailer.createTransport(nodemailerConfig);
 
   return await transporter.sendMail({
@@ -20,7 +23,12 @@ const sendEmail = async ({ to, subject, html }) => {
   });
 };
 
-const sendResetPasswordEmail = async ({ name, email, token }) => {
+const sendResetPasswordEmail = async ({ email, token }) => {
+  /**
+   * Sends password reset link to user
+   * @param:email and token
+   * @return:sends email to user
+   */
   const resetURL = `https://accesskeymanager.onrender.com/reset-password/${token}`;
   const message = `<p>Please reset password by clicking on the following link :
   <a href="${resetURL}">Reset Password</a></p>`;
@@ -35,6 +43,11 @@ const sendResetPasswordEmail = async ({ name, email, token }) => {
 };
 
 const sendEmailVerification = async ({ email, verificationToken }) => {
+  /**
+   * Send email verification token to user
+   * @param:email, and verificationToken
+   * return:Send an email to user
+   */
   const verifyEmail = `https://accesskeymanager.onrender.com/verify-email/${verificationToken}`;
   console.log(verifyEmail);
 

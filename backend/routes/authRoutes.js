@@ -1,3 +1,8 @@
+/**
+ * Authentication route for the login, register, reset password, forgot password and verify email
+ *
+ */
+
 const express = require("express");
 const router = express.Router();
 
