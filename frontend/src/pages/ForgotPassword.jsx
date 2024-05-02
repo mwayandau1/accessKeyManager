@@ -21,6 +21,7 @@ const ForgotPassword = () => {
       );
       setMessage(response.data.msg);
       navigate(`/email-sent/${email}`);
+      console.log(response.data);
     } catch (error) {
       setMessage("Error sending reset password email");
     }
