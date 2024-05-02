@@ -21,6 +21,6 @@ router.get("/verify-email/:token", verifyEmail);
 router.patch("/reset-password/:token", resetPassword);
 
 router.post("/forgot-password", forgotPassword);
-router.post("/resend-reset-password", resendPasswordResetLink);
+router.get("/resend-reset-password/:email", resendPasswordResetLink);
 
 module.exports = router;

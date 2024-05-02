@@ -170,7 +170,7 @@ const resetPassword = asyncHandler(async (req, res, next) => {
 });
 
 const resendPasswordResetLink = asyncHandler(async (req, res, next) => {
-  const { email } = req.body;
+  const { email } = req.params;
   const user = await User.findOne({ email });
 
   if (user) {
