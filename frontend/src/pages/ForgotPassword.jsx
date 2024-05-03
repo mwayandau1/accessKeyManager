@@ -1,18 +1,18 @@
 // components/ForgotPassword.js
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
+import SmallSpinner from "../components/SmallSpinner";
+import CustomButton from "../components/CustomButton";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
-    console.log("forgot password frontend");
-
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://accesskeymanagerbackend.onrender.com/auth/forgot-password",
@@ -21,13 +21,14 @@ const ForgotPassword = () => {
         }
       );
       setMessage(response.data.msg);
-      navigate(`/email-sent/${email}`);
+      setLoading(false);
       console.log(response.data);
     } catch (error) {
       setMessage(
         error.response.data.msg || "Error sending reset password email"
       );
       console.log("Error here", error);
+      setLoading(false);
     }
   };
 
@@ -38,7 +39,7 @@ const ForgotPassword = () => {
           Forgot Password?
         </h2>
         {message && <p className="text-center mb-4">{message}</p>}
-        <form>
+        <form onSubmit={handleForgotPassword}>
           <div className="mb-4">
             <InputField
               type="email"
@@ -48,14 +49,9 @@ const ForgotPassword = () => {
               label="Email"
             />
           </div>
-          <button
-            onClick={handleForgotPassword}
-            type="button"
-            disabled={email === " "}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md w-full"
-          >
-            Continue
-          </button>
+          <CustomButton>Continue</CustomButton>
+
+          {loading && <SmallSpinner />}
         </form>
       </div>
     </div>

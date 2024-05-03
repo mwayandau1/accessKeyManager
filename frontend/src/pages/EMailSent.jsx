@@ -9,7 +9,7 @@ const EmailSentPage = () => {
   const handleResendEmail = async () => {
     try {
       await axios.get(
-        `https://accesskeymanagerbackend.onrender.com/auth/resend-email-password/${email}`
+        `https://accesskeymanagerbackend.onrender.com/auth/resend-email/${email}`
       );
     } catch (error) {
       setError(error.response.data.msg);
@@ -24,8 +24,8 @@ const EmailSentPage = () => {
         </h2>
         <p className="text-center text-sm text-gray-600 mb-6">
           An email has been sent to{" "}
-          <span className="font-semibold">{email}</span>. Please verify and
-          reset your password.
+          <span className="font-semibold">{email}</span>. Please check your
+          email and verify your account to continue
         </p>
         {error && (
           <p className="text-center text-sm text-red-500 mb-4">{error}</p>
@@ -35,7 +35,7 @@ const EmailSentPage = () => {
             to="/"
             className="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold text-sm hover:bg-blue-600 transition duration-300"
           >
-            Back to Login
+            Login
           </Link>
           <button
             className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md font-semibold text-sm hover:bg-gray-300 transition duration-300"
