@@ -10,16 +10,15 @@ const ForgotPassword = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        "https://accesskeymanagerbackend.onrender.com/auth/forgot-password",
-        {
-          email,
-        }
-      );
+      const response = await axios.post(`${API_URL}/auth/forgot-password`, {
+        email,
+      });
       setMessage(response.data.msg);
       setLoading(false);
       console.log(response.data);
@@ -39,7 +38,7 @@ const ForgotPassword = () => {
           Forgot Password?
         </h2>
         {message && <p className="text-center mb-4">{message}</p>}
-        <form onSubmit={handleForgotPassword}>
+        <form onSubmit={handleForgotPassword} method="POST">
           <div className="mb-4">
             <InputField
               type="email"

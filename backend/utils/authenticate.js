@@ -19,7 +19,7 @@ const authenticateUser = async (req, res, next) => {
     req.user = { email, id, role };
     next();
   } catch (err) {
-    return next(new CustomError("Token invalid", 500));
+    return next(new CustomError("Token invalid", 401));
   }
 };
 

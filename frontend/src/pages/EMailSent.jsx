@@ -6,11 +6,10 @@ const EmailSentPage = () => {
   const [error, setError] = useState("");
   const { email } = useParams();
 
+  const API_URL = import.meta.env.VITE_API_URL;
   const handleResendEmail = async () => {
     try {
-      await axios.get(
-        `https://accesskeymanagerbackend.onrender.com/auth/resend-email/${email}`
-      );
+      await axios.get(`${API_URL}/auth/resend-email/${email}`);
     } catch (error) {
       setError(error.response.data.msg);
     }

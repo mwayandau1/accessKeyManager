@@ -8,13 +8,12 @@ const VerifyEmail = () => {
   const [message, setMessage] = useState("");
   const [verified, setVerified] = useState(false);
   const [loading, setLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     setLoading(true);
     axios
-      .get(
-        `https://accesskeymanagerbackend.onrender.com/auth/verify-email/${token}`
-      )
+      .get(`${API_URL}/auth/verify-email/${token}`)
       .then((response) => {
         setMessage(response.data.message);
         setLoading(false);

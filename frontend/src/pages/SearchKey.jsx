@@ -10,6 +10,7 @@ const SearchKey = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [revoked, setRevoked] = useState(false);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const { user } = useSelector((state) => state.user);
   const { token } = user;
@@ -20,7 +21,7 @@ const SearchKey = () => {
     setError(null);
     try {
       const response = await axios.post(
-        `https://accesskeymanagerbackend.onrender.com/keys/email`,
+        `${API_URL}/keys/email`,
         {
           email,
         },
@@ -47,7 +48,7 @@ const SearchKey = () => {
 
     try {
       await axios.patch(
-        `https://accesskeymanagerbackend.onrender.com/keys/revoke-key/${keyData._id}`,
+        `${API_URL}/keys/revoke-key/${keyData._id}`,
         {},
         {
           headers: {
@@ -69,7 +70,7 @@ const SearchKey = () => {
         <h2 className="text-2xl font-bold mb-4 text-center">
           Search Key by Email
         </h2>
-        <form onSubmit={handleSearch} className="mb-4">
+        <form onSubmit={handleSearch} method="POST" className="mb-4">
           <input
             type="email"
             value={email}
