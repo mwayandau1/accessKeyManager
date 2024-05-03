@@ -54,6 +54,18 @@ describe("Authentication Controller", () => {
       );
     }, 10000);
   });
+  describe("register", () => {
+    it("should return an error for registering with existing email", async () => {
+      const response = await request(app)
+        .post("/auth/register")
+        .send({ email: mockUser.email, password: "password123" })
+        .expect(400);
+      expect(response.body).toHaveProperty(
+        "msg",
+        "This email is already in use!"
+      );
+    }, 10000);
+  });
 
   describe("verifyEmail", () => {
     it("should verify email", async () => {
@@ -80,14 +92,37 @@ describe("Authentication Controller", () => {
     }, 10000);
   });
 
+  describe("login", () => {
+    it("should return an error for invalid login credentials", async () => {
+      const response = await request(app)
+        .post("/auth/login")
+        .send({ email: "nonexistent@example.com", password: "invalidPassword" })
+        .expect(401);
+      expect(response.body).toHaveProperty("msg", "Invalid Credentials");
+    }, 10000);
+  });
+
   describe("forgotPassword", () => {
-    xit("should send reset password email", async () => {
+    it("should send reset password email", async () => {
       const response = await request(app)
         .post("/auth/forgot-password")
         .send({ email: userData.email })
         .expect(200);
       expect(response.body.msg).toBe(
         "Please check your email for reset password link"
+      );
+    }, 10000);
+  });
+
+  describe("forgotPassword", () => {
+    it("should return an error for non-existing email", async () => {
+      const response = await request(app)
+        .post("/auth/forgot-password")
+        .send({ email: "nonexistent@example.com" })
+        .expect(404);
+      expect(response.body).toHaveProperty(
+        "msg",
+        "No email found for this user"
       );
     }, 10000);
   });
@@ -111,6 +146,36 @@ describe("Authentication Controller", () => {
         .expect(200);
       expect(response.body.msg).toBe(
         "Your password has being reset successfully!"
+      );
+    }, 10000);
+    describe("resetPassword", () => {
+      it("should return an error for invalid reset password token", async () => {
+        const response = await request(app)
+          .patch(`/auth/reset-password/invalidToken`)
+          .send({ password: "new_password" })
+          .expect(400);
+        expect(response.body).toHaveProperty(
+          "msg",
+          "Invalid token or has expired"
+        );
+      }, 10000);
+    });
+  });
+  describe("resendVerificationLink", () => {
+    it("should resend verification email for existing user", async () => {
+      const response = await request(app)
+        .get(`/auth/resend-email/${mockUser.email}`)
+        .expect(200);
+      expect(response.body.msg).toBe("Verification email link resent!");
+    }, 10000);
+
+    it("should return an error for non-existing user", async () => {
+      const response = await request(app)
+        .get(`/auth/resend-email/nonexistent@example.com`)
+        .expect(404);
+      expect(response.body).toHaveProperty(
+        "msg",
+        "Incorrect email or not found!"
       );
     }, 10000);
   });

@@ -90,7 +90,7 @@ const login = asyncHandler(async (req, res, next) => {
   }
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
-    return next(new customError("Invalid Credentials", 400));
+    return next(new customError("Invalid Credentials", 401));
   }
 
   // if (user.isVerified === false) {
@@ -99,7 +99,7 @@ const login = asyncHandler(async (req, res, next) => {
 
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
-    return next(new customError("Invalid credentials", 400));
+    return next(new customError("Invalid credentials", 401));
   }
 
   const token = createToken({

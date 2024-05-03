@@ -13,7 +13,6 @@ const mongoose = require("mongoose");
 describe("Key API Endpoints", () => {
   let authToken;
 
-  // Before all tests, log in a user and get auth token
   beforeAll(async () => {
     // Mock user data
     const userData = {
@@ -118,16 +117,13 @@ describe("Key API Endpoints", () => {
       expect(response.statusCode).toBe(200);
       expect(response.body).toEqual("key revoked!");
     } catch (error) {
-      // If a duplicate key error occurs, handle it gracefully
       if (error.code === 11000 && error.keyPattern && error.keyPattern.key) {
-        // Return a 409 (Conflict) status code with an error message
         expect(error.response.statusCode).toBe(409);
         expect(error.response.body).toHaveProperty(
           "message",
           "Key already revoked"
         );
       } else {
-        // If it's another error, re-throw it to fail the test
         throw error;
       }
     }
