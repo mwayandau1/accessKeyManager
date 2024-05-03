@@ -31,4 +31,5 @@ router.post(
   authorizePermissions("admin"),
   searchKeyBySchoolEmail
 );
+
 module.exports = router;

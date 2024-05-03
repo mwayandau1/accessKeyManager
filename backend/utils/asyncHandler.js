@@ -1,7 +1,7 @@
 /**
  *
  * @param :Takes a function
- * @returns :Returns next if not error otherwise catches the error
+ * @returns :Returns next if no error otherwise catches the error
  */
 
 const asyncHandler = (fn) => {
