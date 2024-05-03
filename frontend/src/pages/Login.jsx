@@ -5,16 +5,20 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../features/redux/userReducer";
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
+import SmallSpinner from "../components/SmallSpinner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://accesskeymanagerbackend.onrender.com/auth/login",
@@ -28,10 +32,11 @@ const Login = () => {
       };
       localStorage.setItem("user", JSON.stringify(user));
       dispatch(setUser(user));
+      setLoading(false);
       navigate("/home");
     } catch (error) {
-      console.error("Error:", error);
       setMessage(error?.response?.data?.msg || "An error occurred");
+      setLoading(false);
     }
   };
 
@@ -67,6 +72,7 @@ const Login = () => {
             </Link>
           </p>
           <CustomButton>Sign In</CustomButton>
+          {loading && <SmallSpinner />}
 
           <p className="mt-2 mb-4 text-sm text-center flex justify-center">
             Not a member yet?{" "}

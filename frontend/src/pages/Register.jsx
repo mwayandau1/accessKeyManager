@@ -1,26 +1,33 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
+import SmallSpinner from "../components/SmallSpinner";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://accesskeymanagerbackend.onrender.com/auth/register",
         { email, password }
       );
       setMessage(response.data.msg);
+      setLoading(false);
+      navigate(`/email-sent/${email}`);
     } catch (error) {
       console.error("Error:", error);
       setErrorMessage(error?.response?.data?.msg || "An error occurred");
+      setLoading(false);
     }
   };
 
@@ -47,13 +54,20 @@ const Register = () => {
             onChange={(e) => setPassword(e.target.value)}
             label="Password"
           />
-          <CustomButton>Sign Up</CustomButton>
-          <p className="mt-2 mb-4 text-sm text-center flex justify-end">
-            Already have an account?{" "}
-            <Link to="/" className="text-blue-500 hover:underline">
-              Login
-            </Link>
-          </p>
+          {loading ? (
+            <SmallSpinner />
+          ) : (
+            <>
+              <CustomButton>Sign Up</CustomButton>
+
+              <p className="mt-2 mb-4 text-sm text-center flex justify-end">
+                Already have an account?{" "}
+                <Link to="/" className="text-blue-500 hover:underline">
+                  Login
+                </Link>
+              </p>
+            </>
+          )}
         </form>
       </div>
     </div>
