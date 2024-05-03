@@ -1,6 +1,6 @@
 # Access Key Manager
 
-Access Key Manager is a web application designed Micro-Focus Inc to help schools to generate access key to activate their school account It provides features such as user registration, login, key search,email verification and password reset functionality.
+Access Key Manager is a web application designed  for Micro-Focus Inc to help schools to generate access key to activate their school account It provides features such as user registration, login, key search,email verification and password reset functionality.
 
 ## Features
 
