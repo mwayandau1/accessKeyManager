@@ -21,11 +21,18 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/auth/login`, {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${API_URL}/auth/login`,
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       setMessage(response.data.message);
+      console.log(response.data);
       const user = {
         email: response.data.user.email,
         role: response.data.user.role,

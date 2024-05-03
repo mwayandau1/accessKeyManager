@@ -8,16 +8,18 @@
  */
 
 const User = require("../models/UserModel");
-const { createToken } = require("../utils/token");
+const { attachCookiesToResponse } = require("../utils/token");
 const createHash = require("../utils/createHash");
 const asyncHandler = require("../utils/asyncHandler");
 const customError = require("../utils/customError");
+const Token = require("../models/TokenModel");
 
 const {
   sendEmailVerification,
   sendResetPasswordEmail,
 } = require("../utils/email");
 const crypto = require("crypto");
+const userObject = require("../utils/userObject");
 
 const register = asyncHandler(async (req, res, next) => {
   /**
@@ -93,21 +95,49 @@ const login = asyncHandler(async (req, res, next) => {
     return next(new customError("Invalid Credentials", 401));
   }
 
-  // if (user.isVerified === false) {
-  //   return next(new customError("Please verify your email to continue", 400));
-  // }
-
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
     return next(new customError("Invalid credentials", 401));
   }
 
-  const token = createToken({
-    payload: { id: user.id, email: user.email, role: user.role },
-  });
+  const tokenUser = userObject(user);
+  // create refresh token
+  let refreshToken = "";
+  // check for existing token
+  const existingToken = await Token.findOne({ user: user._id });
 
-  // Return success response with user data
-  res.status(200).json({ user: user, token });
+  if (existingToken) {
+    const { isValid } = existingToken;
+    if (!isValid) {
+      return next(customError("Invalid Credentials", 401));
+    }
+    refreshToken = existingToken.refreshToken;
+    attachCookiesToResponse({ res, user: tokenUser, refreshToken });
+    return;
+  }
+
+  refreshToken = crypto.randomBytes(40).toString("hex");
+  const userAgent = req.headers["user-agent"];
+  const ip = req.ip;
+  const userToken = { refreshToken, ip, userAgent, user: user._id };
+
+  await Token.create(userToken);
+
+  attachCookiesToResponse({ res, user: tokenUser, refreshToken });
+});
+
+const logout = asyncHandler(async (req, res, next) => {
+  await Token.findOneAndDelete({ user: req.user.userId });
+
+  res.cookie("accessToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.cookie("refreshToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(StatusCodes.OK).json({ msg: "user logged out!" });
 });
 
 const forgotPassword = asyncHandler(async (req, res, next) => {
@@ -195,4 +225,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   resendVerificationLink,
+  logout,
 };

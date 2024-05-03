@@ -53,8 +53,7 @@ describe("Authentication Controller", () => {
         "Success! Please check your email to verify account"
       );
     }, 10000);
-  });
-  describe("register", () => {
+
     it("should return an error for registering with existing email", async () => {
       const response = await request(app)
         .post("/auth/register")
@@ -90,9 +89,7 @@ describe("Authentication Controller", () => {
       expect(response.body).toHaveProperty("user");
       expect(response.body).toHaveProperty("token");
     }, 10000);
-  });
 
-  describe("login", () => {
     it("should return an error for invalid login credentials", async () => {
       const response = await request(app)
         .post("/auth/login")
@@ -112,9 +109,7 @@ describe("Authentication Controller", () => {
         "Please check your email for reset password link"
       );
     }, 10000);
-  });
 
-  describe("forgotPassword", () => {
     it("should return an error for non-existing email", async () => {
       const response = await request(app)
         .post("/auth/forgot-password")
@@ -148,18 +143,16 @@ describe("Authentication Controller", () => {
         "Your password has being reset successfully!"
       );
     }, 10000);
-    describe("resetPassword", () => {
-      it("should return an error for invalid reset password token", async () => {
-        const response = await request(app)
-          .patch(`/auth/reset-password/invalidToken`)
-          .send({ password: "new_password" })
-          .expect(400);
-        expect(response.body).toHaveProperty(
-          "msg",
-          "Invalid token or has expired"
-        );
-      }, 10000);
-    });
+    it("should return an error for invalid reset password token", async () => {
+      const response = await request(app)
+        .patch(`/auth/reset-password/invalidToken`)
+        .send({ password: "new_password" })
+        .expect(400);
+      expect(response.body).toHaveProperty(
+        "msg",
+        "Invalid token or has expired"
+      );
+    }, 10000);
   });
   describe("resendVerificationLink", () => {
     it("should resend verification email for existing user", async () => {
