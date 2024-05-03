@@ -34,8 +34,10 @@ const Register = () => {
   return (
     <div className="container mx-auto flex justify-center items-center h-screen">
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96">
-        <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
-        {message && <p className="text-center mb-4 text-gray-500">{message}</p>}
+        <h2 className="text-2xl font-bold mb-4 text-center text-blue-500">
+          Sign up with Micro Focus
+        </h2>
+        {message && <p className="text-center mb-4 text-blue-500">{message}</p>}
         {errorMessage && (
           <p className="text-center mb-4 text-red-500">{errorMessage}</p>
         )}

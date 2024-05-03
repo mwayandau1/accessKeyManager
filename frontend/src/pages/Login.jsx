@@ -46,7 +46,6 @@ const Login = () => {
         <h2 className="text-2xl font-bold mb-4 text-center text-blue-500">
           Welcome back to Micro Focus
         </h2>
-        <h2 className="text-2xl font-bold mb-4 text-center"> Please Sign In</h2>
         {message && <p className="text-center mb-4 text-red-500">{message}</p>}
         <form onSubmit={handleLogin}>
           <InputField
