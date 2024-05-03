@@ -32,7 +32,7 @@ const SearchKey = () => {
         }
       );
       setKeyData(response.data.key[0]);
-      console.log(response.data);
+      setLoading(false);
     } catch (error) {
       console.log("error by search", error);
       setError(
@@ -65,27 +65,32 @@ const SearchKey = () => {
   };
 
   return (
-    <div className="container mx-auto flex justify-center items-center h-screen">
-      <div className="w-full max-w-md bg-gray-100 rounded-lg shadow-md p-6">
+    <div className="container mx-auto flex justify-center items-center min-h-screen">
+      <div className="w-full max-w-md bg-gray-100 rounded-lg shadow-md p-6 overflow-y-auto">
         <h2 className="text-2xl font-bold mb-4 text-center">
           Search Key by Email
         </h2>
         <form onSubmit={handleSearch} method="POST" className="mb-4">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter email address"
-            className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600 transition duration-300"
-          >
-            Search
-          </button>
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter email address"
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                type="submit"
+                className="w-full bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600 transition duration-300"
+              >
+                Search
+              </button>
+            </>
+          )}
         </form>
-        {loading && <LoadingSpinner />}
         {error && <p className="text-center mt-4 text-red-500">{error}</p>}
         {keyData ? (
           <div className="mt-4 bg-white rounded-lg shadow-md p-4">

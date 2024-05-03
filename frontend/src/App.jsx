@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MainLayout from "./components/MainLayout";
 import EmailSentPage from "./pages/EMailSent";
+import NotFoundPage from "./components/NotFoundPage";
 
 const App = () => {
   return (
@@ -46,6 +47,8 @@ const App = () => {
             </MainLayout>
           }
         />
+
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
