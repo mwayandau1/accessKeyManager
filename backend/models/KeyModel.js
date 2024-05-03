@@ -24,6 +24,10 @@ const keySchema = new mongoose.Schema({
   },
 });
 
+keySchema.index({ key: 1 }, { unique: true });
+keySchema.index({ user: 1 });
+keySchema.index({ status: 1 });
+
 keySchema.virtual("isExpired").get(function () {
   return this.status === "expired" || this.expiryDate < Date.now();
 });

@@ -12,15 +12,16 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        "https://accesskeymanagerbackend.onrender.com/auth/register",
-        { email, password }
-      );
+      const response = await axios.post(`${API_URL}/auth/register`, {
+        email,
+        password,
+      });
       setMessage(response.data.msg);
       setLoading(false);
       navigate(`/email-sent/${email}`);
@@ -41,7 +42,7 @@ const Register = () => {
         {errorMessage && (
           <p className="text-center mb-4 text-red-500">{errorMessage}</p>
         )}
-        <form onSubmit={handleRegister}>
+        <form onSubmit={handleRegister} method="POST">
           <InputField
             type="email"
             id="email"

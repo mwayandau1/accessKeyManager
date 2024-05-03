@@ -8,6 +8,7 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ const ResetPassword = () => {
 
     try {
       const response = await axios.patch(
-        `https://accesskeymanagerbackend.onrender.com/auth/reset-password/${token}`,
+        `${API_URL}/auth/reset-password/${token}`,
         {
           password,
         }

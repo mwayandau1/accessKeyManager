@@ -15,6 +15,8 @@ const Home = () => {
   const { user } = useSelector((state) => state.user);
   const { token, role } = user;
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     handleFetchKeys();
     setIsAdmin(role === "admin");
@@ -25,7 +27,7 @@ const Home = () => {
     try {
       setCreatingKey(true);
       const response = await axios.post(
-        "https://accesskeymanagerbackend.onrender.com/keys",
+        `${API_URL}/keys`,
         { keyName: newKeyName },
         {
           headers: {
@@ -47,14 +49,11 @@ const Home = () => {
   const handleFetchKeys = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        "https://accesskeymanagerbackend.onrender.com/keys",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}/keys`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setMessage(response.data.msg);
       setAccessKeys(response.data.keys);
       console.log(response.data.keys);
@@ -70,7 +69,7 @@ const Home = () => {
     console.log("The id of the key passed", id);
     try {
       const response = await axios.patch(
-        `https://accesskeymanagerbackend.onrender.com/keys/revoke-key/${id}`,
+        `${API_URL}/keys/revoke-key/${id}`,
         {},
         {
           headers: {

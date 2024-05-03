@@ -14,7 +14,7 @@ const KeyPage = () => {
   const { user } = useSelector((state) => state.user);
   const { token, role } = user;
   const [revoked, setRevoked] = useState(false);
-
+  const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     setIsAdmin(role === "admin");
   }, [role]);
@@ -22,14 +22,11 @@ const KeyPage = () => {
     const fetchKey = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `https://accesskeymanagerbackend.onrender.com/keys/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`${API_URL}/keys/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setKeyData(response.data);
         setLoading(false);
       } catch (error) {
@@ -44,7 +41,7 @@ const KeyPage = () => {
   const handleRevoke = async () => {
     try {
       const response = await axios.patch(
-        `https://accesskeymanagerbackend.onrender.com/keys/revoke-key/${id}`,
+        `${API_URL}/keys/revoke-key/${id}`,
         {},
         {
           headers: {

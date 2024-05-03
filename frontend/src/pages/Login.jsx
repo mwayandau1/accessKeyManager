@@ -15,15 +15,16 @@ const Login = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        "https://accesskeymanagerbackend.onrender.com/auth/login",
-        { email, password }
-      );
+      const response = await axios.post(`${API_URL}/auth/login`, {
+        email,
+        password,
+      });
       setMessage(response.data.message);
       const user = {
         email: response.data.user.email,
@@ -47,7 +48,7 @@ const Login = () => {
           Welcome back to Micro Focus
         </h2>
         {message && <p className="text-center mb-4 text-red-500">{message}</p>}
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} method="POST">
           <InputField
             type="email"
             id="email"
