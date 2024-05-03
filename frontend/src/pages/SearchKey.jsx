@@ -9,6 +9,7 @@ const SearchKey = () => {
   const [keyData, setKeyData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [revoked, setRevoked] = useState(false);
 
   const { user } = useSelector((state) => state.user);
   const { token } = user;
@@ -55,10 +56,10 @@ const SearchKey = () => {
         }
       );
       setKeyData(null);
-      // Optionally, you can display a message indicating the key has been revoked
+      setRevoked(false);
     } catch (error) {
       console.log("error by revoke", error);
-      // Handle error
+      setError(error.response.data.msg || "Error revoking key");
     }
   };
 
@@ -85,7 +86,7 @@ const SearchKey = () => {
         </form>
         {loading && <LoadingSpinner />}
         {error && <p className="text-center mt-4 text-red-500">{error}</p>}
-        {keyData && (
+        {keyData ? (
           <div className="mt-4 bg-white rounded-lg shadow-md p-4">
             <h3 className="text-xl font-bold mb-2">Key Found</h3>
             <p>
@@ -108,8 +109,14 @@ const SearchKey = () => {
               onClick={handleRevoke}
               className="bg-red-500 text-white px-4 py-2 rounded-md mt-4 hover:bg-red-600 transition duration-300"
             >
-              Revoke Key
+              {revoked ? "Revoked!" : "Revoke Key"}
             </button>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full">
+            <p className="text-lg font-bold text-gray-600">
+              No active key found for the email ({email})
+            </p>
           </div>
         )}
       </div>

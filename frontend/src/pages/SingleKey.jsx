@@ -13,6 +13,7 @@ const KeyPage = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const { user } = useSelector((state) => state.user);
   const { token, role } = user;
+  const [revoked, setRevoked] = useState(false);
 
   useEffect(() => {
     setIsAdmin(role === "admin");
@@ -51,6 +52,7 @@ const KeyPage = () => {
           },
         }
       );
+      setRevoked(true);
       return response.data;
     } catch (error) {
       console.error("Error revoking key:", error);
@@ -67,7 +69,7 @@ const KeyPage = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <h2 className="text-2xl font-bold mb-4">{keyName}</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">{keyName}</h2>
       <div className="bg-white shadow-md rounded px-8 py-6">
         <div className="mb-4">
           <p className="font-semibold">
@@ -92,7 +94,7 @@ const KeyPage = () => {
           onClick={() => handleRevoke(key._id)}
           className="mt-4 bg-red-500 text-white px-3 py-1 rounded-md self-center"
         >
-          Revoke
+          {revoked ? "Revoked" : "Revoke"}
         </button>
       )}
     </div>

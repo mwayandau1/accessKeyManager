@@ -1,10 +1,13 @@
 // components/ForgotPassword.js
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import InputField from "../components/InputField";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
@@ -17,10 +20,14 @@ const ForgotPassword = () => {
           email,
         }
       );
-      console.log(response);
-      setMessage(response.data.message);
+      setMessage(response.data.msg);
+      navigate(`/email-sent/${email}`);
+      console.log(response.data);
     } catch (error) {
-      setMessage("Error sending reset password email");
+      setMessage(
+        error.response.data.msg || "Error sending reset password email"
+      );
+      console.log("Error here", error);
     }
   };
 
@@ -33,19 +40,12 @@ const ForgotPassword = () => {
         {message && <p className="text-center mb-4">{message}</p>}
         <form>
           <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email
-            </label>
-            <input
+            <InputField
               type="email"
               id="email"
-              placeholder="Please enter your email to continue"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 p-2 border rounded-md w-full"
+              label="Email"
             />
           </div>
           <button

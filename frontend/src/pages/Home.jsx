@@ -36,6 +36,7 @@ const Home = () => {
       setMessage(response.data.message);
       setCreatingKey(false);
       setNewKeyName("");
+      handleFetchKeys();
     } catch (error) {
       setCreatingKey(false);
       console.log(error);
@@ -77,10 +78,11 @@ const Home = () => {
           },
         }
       );
-      return response.data;
+      setMessage(response.data);
+      console.log(response.data);
+      handleFetchKeys();
     } catch (error) {
       console.error("Error revoking key:", error);
-      throw error;
     }
   };
 
@@ -101,6 +103,7 @@ const Home = () => {
         <>
           <div className="mb-4 flex items-center justify-center">
             <input
+              required
               type="text"
               value={newKeyName}
               onChange={(e) => setNewKeyName(e.target.value)}

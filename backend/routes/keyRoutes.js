@@ -1,3 +1,7 @@
+/**
+ * Key routes for anything related to key including key generation, get all key, single key and revoke key
+ */
+
 const express = require("express");
 const router = express.Router();
 const {
@@ -27,4 +31,5 @@ router.post(
   authorizePermissions("admin"),
   searchKeyBySchoolEmail
 );
+
 module.exports = router;

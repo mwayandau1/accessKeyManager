@@ -18,7 +18,6 @@ const Register = () => {
         { email, password }
       );
       setMessage(response.data.msg);
-      // Handle successful registration
     } catch (error) {
       console.error("Error:", error);
       setErrorMessage(error?.response?.data?.msg || "An error occurred");

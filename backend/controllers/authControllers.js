@@ -1,5 +1,13 @@
+/**
+ * Authentication controller
+ * Register
+ * Verify email
+ * Login
+ * Forgot password
+ * Reset password
+ */
+
 const User = require("../models/UserModel");
-// const obtainTokenUser = require("../utils/tokenUser");
 const { createToken } = require("../utils/token");
 const createHash = require("../utils/createHash");
 const asyncHandler = require("../utils/asyncHandler");
@@ -12,6 +20,12 @@ const {
 const crypto = require("crypto");
 
 const register = asyncHandler(async (req, res, next) => {
+  /**
+   * Registration controller
+   *@find:Finds if there is already an email in use
+   @params:Takes email and password
+   @return:Returns a success message telling user to verify email through an email message
+   */
   const { email, password } = req.body;
   if (!password || !email) {
     return next(new customError("Please fill all values", 400));
@@ -31,8 +45,6 @@ const register = asyncHandler(async (req, res, next) => {
     role,
     verificationToken,
   });
-  // const origin = "http://localhost:5000";
-
   await sendEmailVerification({
     email: user.email,
     verificationToken: user.verificationToken,
@@ -43,16 +55,18 @@ const register = asyncHandler(async (req, res, next) => {
 });
 
 const verifyEmail = asyncHandler(async (req, res, next) => {
-  console.log("Here");
+  /***
+   * Email verification controller
+   * @function:Verifies users account if token is valid
+   * @params:Take token from sent email link
+   * @return:Returns a message indicating a user is verified
+   */
   const { token } = req.params;
   const user = await User.findOne({ verificationToken: token });
 
   if (!user) {
     return next(new customError("Verification Failed", 400));
-  }
-
-  if (user.verificationToken !== token) {
-    return next(new customError("Verification Failed", 400));
+    // return res.status(400).jso({"msg": "error wrong message"})
   }
 
   (user.isVerified = true), (user.verified = Date.now());
@@ -64,6 +78,12 @@ const verifyEmail = asyncHandler(async (req, res, next) => {
 });
 
 const login = asyncHandler(async (req, res, next) => {
+  /***
+   * Login controller
+   * @function:Logs user in
+   * @prams:Takes email and password from body
+   * @return:Returns user with jwt token if user is found in the database
+   */
   const { email, password } = req.body;
   if (!email || !password) {
     return next(new customError("Please provide all values", 400));
@@ -73,9 +93,9 @@ const login = asyncHandler(async (req, res, next) => {
     return next(new customError("Invalid Credentials", 400));
   }
 
-  if (user.isVerified === false) {
-    return next(new customError("Please verify your email to continue", 400));
-  }
+  // if (user.isVerified === false) {
+  //   return next(new customError("Please verify your email to continue", 400));
+  // }
 
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
@@ -91,39 +111,45 @@ const login = asyncHandler(async (req, res, next) => {
 });
 
 const forgotPassword = asyncHandler(async (req, res, next) => {
-  console.log("Got to forgot password");
+  /**
+   * Forgot password controller
+   * @function:Allow user to get link to reset password
+   * @params:Takes email from body and sends an email for user to reset the password
+   */
   const { email } = req.body;
   if (!email) {
     return next(new customError("Please provide a valid email", 400));
   }
 
   const user = await User.findOne({ email });
-
-  if (user) {
-    const passwordToken = crypto.randomBytes(70).toString("hex");
-    // send email
-    const origin = `https://accesskeymanager.onrender.com`;
-    await sendResetPasswordEmail({
-      name: user.name,
-      email: user.email,
-      token: passwordToken,
-      origin,
-    });
-
-    const tenMinutes = 1000 * 60 * 10;
-    const passwordTokenExpirationDate = Date.now() + tenMinutes;
-
-    user.passwordToken = createHash(passwordToken);
-    user.passwordTokenExpirationDate = passwordTokenExpirationDate;
-    await user.save();
+  if (!user) {
+    return next(new customError("No email found for this user", 404));
   }
 
+  const passwordToken = crypto.randomBytes(70).toString("hex");
+  // send email.onrender.com`;
+  await sendResetPasswordEmail({
+    email: user.email,
+    token: passwordToken,
+  });
+
+  const tenMinutes = 1000 * 60 * 10;
+  const passwordTokenExpirationDate = Date.now() + tenMinutes;
+
+  user.passwordToken = createHash(passwordToken);
+  user.passwordTokenExpirationDate = passwordTokenExpirationDate;
+  await user.save();
   res
     .status(200)
     .json({ msg: "Please check your email for reset password link" });
 });
 
 const resetPassword = asyncHandler(async (req, res, next) => {
+  /**
+   * Reset password controller
+   * @function:Allow user to reset forgotten password
+   * @params:Take token, password from params and body respectively
+   */
   const { password } = req.body;
   const { token } = req.params;
   if (!token || !password) {
@@ -133,14 +159,36 @@ const resetPassword = asyncHandler(async (req, res, next) => {
     passwordToken: createHash(token),
     passwordTokenExpirationDate: { $gt: Date.now() },
   });
-  if (!user) return next(new customError("Invalid token or has expired"));
+  if (!user) return next(new customError("Invalid token or has expired", 400));
   user.password = password;
   user.passwordToken = null;
   user.passwordTokenExpirationDate = null;
   console.log("Set the null values of password token and expiry date");
   await user.save();
 
-  res.send("Your password has being reset successfully!");
+  res.status(200).json({ msg: "Your password has being reset successfully!" });
+});
+
+const resendPasswordResetLink = asyncHandler(async (req, res, next) => {
+  const { email } = req.params;
+  const user = await User.findOne({ email });
+
+  if (user) {
+    const passwordToken = crypto.randomBytes(70).toString("hex");
+    // send email.onrender.com`;
+    await sendResetPasswordEmail({
+      email: user.email,
+      token: passwordToken,
+    });
+
+    const tenMinutes = 1000 * 60 * 10;
+    const passwordTokenExpirationDate = Date.now() + tenMinutes;
+
+    user.passwordToken = createHash(passwordToken);
+    user.passwordTokenExpirationDate = passwordTokenExpirationDate;
+    await user.save();
+  }
+  return res.status(200).json({ msg: "Reset password link resent!" });
 });
 
 module.exports = {
@@ -149,4 +197,5 @@ module.exports = {
   verifyEmail,
   forgotPassword,
   resetPassword,
+  resendPasswordResetLink,
 };

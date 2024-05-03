@@ -1,3 +1,8 @@
+/**
+ * Key Model(Entity)
+ * fields:Key name, key, user, status, procurement date, expiry date,
+ */
+
 const mongoose = require("mongoose");
 
 const keySchema = new mongoose.Schema({
