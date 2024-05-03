@@ -103,6 +103,7 @@ const Home = () => {
         <>
           <div className="mb-4 flex items-center justify-center">
             <input
+              required
               type="text"
               value={newKeyName}
               onChange={(e) => setNewKeyName(e.target.value)}

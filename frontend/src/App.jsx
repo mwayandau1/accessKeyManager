@@ -9,6 +9,7 @@ import SearchKey from "./pages/SearchKey";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MainLayout from "./components/MainLayout";
+import EmailSentPage from "./pages/EMailSent";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/email-sent/:email" element={<EmailSentPage />} />
 
         <Route
           path="/home"
