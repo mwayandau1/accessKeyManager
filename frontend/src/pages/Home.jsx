@@ -13,7 +13,7 @@ const Home = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const { user } = useSelector((state) => state.user);
-  const { token, role } = user;
+  const { role } = user;
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -30,9 +30,7 @@ const Home = () => {
         `${API_URL}/keys`,
         { keyName: newKeyName },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true, // Send cookies along with the request
         }
       );
       setMessage(response.data.message);
@@ -50,9 +48,7 @@ const Home = () => {
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/keys`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        withCredentials: true, // Send cookies along with the request
       });
       setMessage(response.data.msg);
       setAccessKeys(response.data.keys);
@@ -72,9 +68,7 @@ const Home = () => {
         `${API_URL}/keys/revoke-key/${id}`,
         {},
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true, // Send cookies along with the request
         }
       );
       setMessage(response.data);

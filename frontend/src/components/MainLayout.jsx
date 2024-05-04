@@ -8,7 +8,7 @@ const MainLayout = ({ children }) => {
 
   return (
     <>
-      {user?.token ? (
+      {user ? (
         <>
           <Navbar />
           <main>{children}</main>

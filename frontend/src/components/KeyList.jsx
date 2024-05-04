@@ -44,7 +44,7 @@ function KeyList({ accessKeys, getStatusColor, isAdmin, handleRevoke }) {
             <div>
               <Link to={`/keys/${key._id}`} className="hover:underline">
                 <h3 className="font-semibold">
-                  <span>{key.keyName}</span> By: <span>{key.user.email}</span>
+                  <span>{key.keyName}</span> By: <span>{key?.user?.email}</span>
                 </h3>
               </Link>
 

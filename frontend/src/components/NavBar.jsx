@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import { useSelector, useDispatch } from "react-redux";
 import UserHeader from "./UserHeader";
 import { clearUser } from "../features/redux/userReducer";
+import { IoIosPeople } from "react-icons/io";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -20,12 +21,19 @@ const NavBar = () => {
       <div className="flex items-center">
         <Logo />
         {user?.role === "admin" && (
-          <div className="flex">
+          <div className="flex items-center gap-4">
             <Link
               to="/search-key"
-              className="bg-white text-blue-500 px-4 py-2 rounded-md hover:bg-blue-50 transition duration-300 "
+              className="bg-slate-500  px-4 py-2 rounded-md hover:bg-blue-50 transition duration-300 "
             >
               Search Key
+            </Link>
+            <Link to="/schools">
+              <IoIosPeople
+                size={48}
+                color="white"
+                className="bg-slate-500 rounded-full"
+              />
             </Link>
           </div>
         )}
@@ -34,7 +42,7 @@ const NavBar = () => {
         <UserHeader user={user} email={user.email} />
         <button
           onClick={handleLogout}
-          className="bg-white text-blue-500 px-4 py-2 rounded-md hover:bg-blue-50 transition duration-300"
+          className="bg-slate-500  px-4 py-2 rounded-md hover:bg-blue-50 transition duration-300"
         >
           Logout
         </button>

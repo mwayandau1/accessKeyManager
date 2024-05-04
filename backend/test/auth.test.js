@@ -5,7 +5,7 @@
  */
 
 const request = require("supertest");
-const app = require("../app");
+const app = require("../server");
 const mongoose = require("mongoose");
 const User = require("../models/UserModel");
 const createHash = require("../utils/createHash");

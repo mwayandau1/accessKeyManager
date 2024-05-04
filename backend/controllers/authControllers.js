@@ -218,6 +218,11 @@ const resendVerificationLink = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ msg: "Verification email link resent!" });
 });
 
+const getAllUsers = async (req, res) => {
+  const users = await User.find({ role: "school" }).select("-password");
+  res.status(200).json({ users, count: users.length });
+};
+
 module.exports = {
   register,
   login,
@@ -226,4 +231,5 @@ module.exports = {
   resetPassword,
   resendVerificationLink,
   logout,
+  getAllUsers,
 };

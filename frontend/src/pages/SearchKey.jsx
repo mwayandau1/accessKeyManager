@@ -26,9 +26,7 @@ const SearchKey = () => {
           email,
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true, // Send cookies along with the request
         }
       );
       setKeyData(response.data.key[0]);

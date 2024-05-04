@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MainLayout from "./components/MainLayout";
 import EmailSentPage from "./pages/EMailSent";
+import AllUser from "./pages/AllUsers";
 import NotFoundPage from "./components/NotFoundPage";
 
 const App = () => {
@@ -44,6 +45,14 @@ const App = () => {
           element={
             <MainLayout>
               <SearchKey />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/schools"
+          element={
+            <MainLayout>
+              <AllUser />
             </MainLayout>
           }
         />

@@ -6,6 +6,7 @@ import { setUser } from "../features/redux/userReducer";
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
 import SmallSpinner from "../components/SmallSpinner";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -32,15 +33,16 @@ const Login = () => {
         }
       );
       setMessage(response.data.message);
-      console.log(response.data);
       const user = {
         email: response.data.user.email,
         role: response.data.user.role,
-        token: response.data.token,
+        token: Cookies.get("accessToken") || null,
       };
-      localStorage.setItem("user", JSON.stringify(user));
+      // localStorage.setItem("user", JSON.stringify(user));
+
       dispatch(setUser(user));
       setLoading(false);
+      console.log(user);
       navigate("/home");
     } catch (error) {
       setMessage(error?.response?.data?.msg || "An error occurred");
