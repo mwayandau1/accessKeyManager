@@ -11,9 +11,10 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("all");
 
   const { user } = useSelector((state) => state.user);
-  const { token, role } = user;
+  const { role } = user;
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -30,9 +31,7 @@ const Home = () => {
         `${API_URL}/keys`,
         { keyName: newKeyName },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true,
         }
       );
       setMessage(response.data.message);
@@ -50,9 +49,7 @@ const Home = () => {
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/keys`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        withCredentials: true,
       });
       setMessage(response.data.msg);
       setAccessKeys(response.data.keys);
@@ -72,9 +69,7 @@ const Home = () => {
         `${API_URL}/keys/revoke-key/${id}`,
         {},
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true,
         }
       );
       setMessage(response.data);
@@ -95,9 +90,29 @@ const Home = () => {
     }
   };
 
+  const filteredKeys = accessKeys.filter((key) => {
+    if (selectedFilter === "all") {
+      return true;
+    } else {
+      return key.status.toLowerCase() === selectedFilter;
+    }
+  });
+
   return (
     <div className="container mx-auto py-8">
       <h3 className="m-6 font-bold  ">{message}</h3>
+      {isAdmin && (
+        <select
+          value={selectedFilter}
+          onChange={(e) => setSelectedFilter(e.target.value)}
+          className="p-2 m-8 border rounded-md"
+        >
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="revoked">Revoked</option>
+          <option value="expired">Expired</option>
+        </select>
+      )}
       {!isAdmin && (
         <>
           <div className="mb-4 flex items-center justify-center">
@@ -132,7 +147,7 @@ const Home = () => {
         <LoadingSpinner />
       ) : (
         <KeyList
-          accessKeys={accessKeys}
+          accessKeys={filteredKeys}
           getStatusColor={getStatusColor}
           isAdmin={isAdmin}
           handleRevoke={handleRevoke}

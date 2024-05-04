@@ -7,43 +7,46 @@ const Key = require("./KeyModel");
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
-const UserSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    unique: true,
-    required: [true, "Please enter your email address"],
-    maxlength: 100,
-    validate: {
-      validator: validator.isEmail,
-      message: "Please provide a valid email address",
+const UserSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      unique: true,
+      required: [true, "Please enter your email address"],
+      maxlength: 100,
+      validate: {
+        validator: validator.isEmail,
+        message: "Please provide a valid email address",
+      },
+    },
+
+    password: {
+      type: String,
+      required: [true, "Please enter your password"],
+      minlength: 6,
+      select: false,
+    },
+    role: {
+      type: String,
+      enum: ["admin", "school"],
+      default: "school",
+    },
+
+    verificationToken: String,
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verified: Date,
+    passwordToken: {
+      type: String,
+    },
+    passwordTokenExpirationDate: {
+      type: Date,
     },
   },
-
-  password: {
-    type: String,
-    required: [true, "Please enter your password"],
-    minlength: 6,
-    select: false,
-  },
-  role: {
-    type: String,
-    enum: ["admin", "school"],
-    default: "school",
-  },
-
-  verificationToken: String,
-  isVerified: {
-    type: Boolean,
-    default: false,
-  },
-  verified: Date,
-  passwordToken: {
-    type: String,
-  },
-  passwordTokenExpirationDate: {
-    type: Date,
-  },
-});
+  { timestamps: true }
+);
 
 UserSchema.index({ email: 1 }, { unique: true });
 
