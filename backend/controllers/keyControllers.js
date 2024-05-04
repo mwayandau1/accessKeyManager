@@ -74,17 +74,12 @@ const getSingleKeyById = asyncHandler(async (req, res, next) => {
    * @Admin or user must login
    * @return:Returns a single by id
    */
-  console.log("Single key by id");
   const { id } = req.params;
 
   // Find the key by ID and populate the 'user' field with the 'email' field
   const key = await Key.findById(id).populate("user", "email");
 
-  console.log("found single key by id", key);
-
   if (!key) return next(new customError("No key found with this id", 404));
-
-  console.log(key);
 
   const keyData = {
     keyName: key.keyName,
@@ -130,7 +125,7 @@ const searchKeyBySchoolEmail = asyncHandler(async (req, res, next) => {
     if (!user)
       return next(new customError("No user found with this email", 404));
     const userId = user.id;
-    console.log(userId);
+    console.log();
     const key = await Key.find({ user: userId, status: "active" });
     if (!key)
       return next(new customError("No active key found for this user", 404));

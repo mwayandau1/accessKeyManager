@@ -1,5 +1,3 @@
-// User.js
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import formatDate from "../features/formatDate";
@@ -9,14 +7,12 @@ const User = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // Fetch users data from backend API
     const fetchUsers = async () => {
       try {
         const response = await axios.get(`${API_URL}/auth/schools`, {
-          withCredentials: true, // Send cookies along with the request
+          withCredentials: true,
         });
         setUsers(response.data.users);
-        console.log(response.data.users);
       } catch (error) {
         console.error("Error fetching users:", error);
       }

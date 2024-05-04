@@ -127,17 +127,17 @@ const login = asyncHandler(async (req, res, next) => {
 });
 
 const logout = asyncHandler(async (req, res, next) => {
-  await Token.findOneAndDelete({ user: req.user.userId });
+  /**
+   * @function:Logs out user
+   * @Finds and delete token from database
+   * @Clears cookies from browser
+   * @return:Returns a success message
+   */
+  await Token.findOneAndDelete({ user: req.user.id });
 
-  res.cookie("accessToken", "logout", {
-    httpOnly: true,
-    expires: new Date(Date.now()),
-  });
-  res.cookie("refreshToken", "logout", {
-    httpOnly: true,
-    expires: new Date(Date.now()),
-  });
-  res.status(StatusCodes.OK).json({ msg: "user logged out!" });
+  res.clearCookie("accessToken", { httpOnly: true });
+  res.clearCookie("refreshToken", { httpOnly: true });
+  res.status(200).json({ msg: "user logged out!" });
 });
 
 const forgotPassword = asyncHandler(async (req, res, next) => {
@@ -200,6 +200,10 @@ const resetPassword = asyncHandler(async (req, res, next) => {
 });
 
 const resendVerificationLink = asyncHandler(async (req, res, next) => {
+  /**
+   * @Allows user to ask for resend email verification link
+   *
+   */
   const { email } = req.params;
   const user = await User.findOne({ email });
 
@@ -219,6 +223,9 @@ const resendVerificationLink = asyncHandler(async (req, res, next) => {
 });
 
 const getAllUsers = async (req, res) => {
+  /**
+   * @return:Returns all users on the platform
+   */
   const users = await User.find({ role: "school" }).select("-password");
   res.status(200).json({ users, count: users.length });
 };

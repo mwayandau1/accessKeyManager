@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 import formatDate from "../features/formatDate";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 const SearchKey = () => {
   const [email, setEmail] = useState("");
@@ -12,8 +12,8 @@ const SearchKey = () => {
   const [revoked, setRevoked] = useState(false);
   const API_URL = import.meta.env.VITE_API_URL;
 
-  const { user } = useSelector((state) => state.user);
-  const { token } = user;
+  // const { user } = useSelector((state) => state.user);
+  // const { token } = user;
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ const SearchKey = () => {
           email,
         },
         {
-          withCredentials: true, // Send cookies along with the request
+          withCredentials: true,
         }
       );
       setKeyData(response.data.key[0]);
@@ -49,9 +49,7 @@ const SearchKey = () => {
         `${API_URL}/keys/revoke-key/${keyData._id}`,
         {},
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true,
         }
       );
       setKeyData(null);

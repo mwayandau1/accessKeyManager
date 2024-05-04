@@ -30,7 +30,7 @@ const Home = () => {
         `${API_URL}/keys`,
         { keyName: newKeyName },
         {
-          withCredentials: true, // Send cookies along with the request
+          withCredentials: true,
         }
       );
       setMessage(response.data.message);
@@ -48,7 +48,7 @@ const Home = () => {
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/keys`, {
-        withCredentials: true, // Send cookies along with the request
+        withCredentials: true,
       });
       setMessage(response.data.msg);
       setAccessKeys(response.data.keys);
@@ -68,7 +68,7 @@ const Home = () => {
         `${API_URL}/keys/revoke-key/${id}`,
         {},
         {
-          withCredentials: true, // Send cookies along with the request
+          withCredentials: true,
         }
       );
       setMessage(response.data);

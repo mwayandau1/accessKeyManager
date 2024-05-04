@@ -23,7 +23,7 @@ const KeyPage = () => {
       try {
         setLoading(true);
         const response = await axios.get(`${API_URL}/keys/${id}`, {
-          withCredentials: true, // Send cookies along with the request
+          withCredentials: true,
         });
         setKeyData(response.data);
         setLoading(false);
@@ -42,7 +42,7 @@ const KeyPage = () => {
         `${API_URL}/keys/revoke-key/${id}`,
         {},
         {
-          withCredentials: true, // Send cookies along with the request
+          withCredentials: true,
         }
       );
       setRevoked(true);
