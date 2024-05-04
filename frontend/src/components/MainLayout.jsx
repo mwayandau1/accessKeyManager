@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import Navbar from "./NavBar";
+import UserNavBar from "./UserNavBar";
 import { clearUser, setUser } from "../features/redux/userReducer";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
+import AdminNavBar from "./AdminNavBar";
 
 // eslint-disable-next-line react/prop-types
 const MainLayout = ({ children }) => {
@@ -34,7 +35,7 @@ const MainLayout = ({ children }) => {
       {loading && <LoadingSpinner />}
       {user?.email ? (
         <>
-          <Navbar />
+          {user.role === "admin" ? <AdminNavBar /> : <UserNavBar />}
           <main>{children}</main>
         </>
       ) : (

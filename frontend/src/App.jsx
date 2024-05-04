@@ -15,51 +15,53 @@ import NotFoundPage from "./components/NotFoundPage";
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/verify-email/:token" element={<VerifyEmail />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="/email-sent/:email" element={<EmailSentPage />} />
+    <main>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/verify-email/:token" element={<VerifyEmail />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/email-sent/:email" element={<EmailSentPage />} />
 
-        <Route
-          path="/home"
-          element={
-            <MainLayout>
-              <Home />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/keys/:id"
-          element={
-            <MainLayout>
-              <SingleKey />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/search-key"
-          element={
-            <MainLayout>
-              <SearchKey />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/schools"
-          element={
-            <MainLayout>
-              <AllUser />
-            </MainLayout>
-          }
-        />
+          <Route
+            path="/home"
+            element={
+              <MainLayout>
+                <Home />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/keys/:id"
+            element={
+              <MainLayout>
+                <SingleKey />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/search-key"
+            element={
+              <MainLayout>
+                <SearchKey />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/schools"
+            element={
+              <MainLayout>
+                <AllUser />
+              </MainLayout>
+            }
+          />
 
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Router>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Router>
+    </main>
   );
 };
 

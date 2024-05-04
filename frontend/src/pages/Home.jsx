@@ -11,6 +11,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("all");
 
   const { user } = useSelector((state) => state.user);
   const { role } = user;
@@ -89,9 +90,29 @@ const Home = () => {
     }
   };
 
+  const filteredKeys = accessKeys.filter((key) => {
+    if (selectedFilter === "all") {
+      return true;
+    } else {
+      return key.status.toLowerCase() === selectedFilter;
+    }
+  });
+
   return (
     <div className="container mx-auto py-8">
       <h3 className="m-6 font-bold  ">{message}</h3>
+      {isAdmin && (
+        <select
+          value={selectedFilter}
+          onChange={(e) => setSelectedFilter(e.target.value)}
+          className="p-2 m-8 border rounded-md"
+        >
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="revoked">Revoked</option>
+          <option value="expired">Expired</option>
+        </select>
+      )}
       {!isAdmin && (
         <>
           <div className="mb-4 flex items-center justify-center">
@@ -126,7 +147,7 @@ const Home = () => {
         <LoadingSpinner />
       ) : (
         <KeyList
-          accessKeys={accessKeys}
+          accessKeys={filteredKeys}
           getStatusColor={getStatusColor}
           isAdmin={isAdmin}
           handleRevoke={handleRevoke}
