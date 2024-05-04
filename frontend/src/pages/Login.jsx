@@ -36,10 +36,8 @@ const Login = () => {
       const user = {
         email: response.data.user.email,
         role: response.data.user.role,
-        token: Cookies.get("accessToken") || null,
       };
       // localStorage.setItem("user", JSON.stringify(user));
-
       dispatch(setUser(user));
       setLoading(false);
       console.log(user);

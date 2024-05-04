@@ -222,13 +222,18 @@ const resendVerificationLink = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ msg: "Verification email link resent!" });
 });
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = asyncHandler(async (req, res, next) => {
   /**
    * @return:Returns all users on the platform
    */
   const users = await User.find({ role: "school" }).select("-password");
+  if (!users) return next(new customError("No users on the platform yet", 404));
   res.status(200).json({ users, count: users.length });
-};
+});
+
+const loggedInUser = asyncHandler(async (req, res, next) => {
+  res.status(200).json({ user: req.user });
+});
 
 module.exports = {
   register,
@@ -239,4 +244,5 @@ module.exports = {
   resendVerificationLink,
   logout,
   getAllUsers,
+  loggedInUser,
 };

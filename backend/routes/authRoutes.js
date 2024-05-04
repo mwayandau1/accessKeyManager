@@ -15,6 +15,7 @@ const {
   resendVerificationLink,
   logout,
   getAllUsers,
+  loggedInUser,
 } = require("../controllers/authControllers");
 const {
   authenticateUser,
@@ -36,4 +37,5 @@ router.get(
   getAllUsers
 );
 
+router.get("/me", authenticateUser, loggedInUser);
 module.exports = router;

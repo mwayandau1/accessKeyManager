@@ -1,10 +1,4 @@
-// userSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-// import Cookies from "js-cookie";
-
-// const token = Cookies.get("accessToken") || null;
-
-// const storedUser = localStorage.getItem("user");
 
 const initialState = {
   user: null,
