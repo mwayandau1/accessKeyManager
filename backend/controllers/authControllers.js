@@ -94,6 +94,8 @@ const login = asyncHandler(async (req, res, next) => {
   if (!user) {
     return next(new customError("Invalid Credentials", 401));
   }
+  if (user.isVerified === false)
+    return next(new customError("Please verify your account to log in!"));
 
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
