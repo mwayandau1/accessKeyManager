@@ -6,7 +6,6 @@ import { setUser } from "../features/redux/userSlice";
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
 import SmallSpinner from "../components/SmallSpinner";
-import Cookies from "js-cookie";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,27 +21,22 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${API_URL}/auth/login`,
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post(`${API_URL}/auth/login`, {
+        email,
+        password,
+      });
       setMessage(response.data.message);
       const user = {
         email: response.data.user.email,
         role: response.data.user.role,
+        token: response.data.token,
       };
-      // localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user));
       dispatch(setUser(user));
-      setLoading(false);
-      console.log(user);
       navigate("/home");
+      setLoading(false);
     } catch (error) {
+      console.error("Error:", error);
       setMessage(error?.response?.data?.msg || "An error occurred");
       setLoading(false);
     }
