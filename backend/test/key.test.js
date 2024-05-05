@@ -5,7 +5,7 @@
  */
 
 const request = require("supertest");
-const app = require("../app"); // Assuming your Express app is exported from app.js
+const app = require("../server"); // Assuming your Express app is exported from app.js
 const User = require("../models/UserModel");
 const Key = require("../models/KeyModel");
 const mongoose = require("mongoose");

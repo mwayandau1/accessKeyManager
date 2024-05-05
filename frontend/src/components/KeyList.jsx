@@ -44,7 +44,7 @@ function KeyList({ accessKeys, getStatusColor, isAdmin, handleRevoke }) {
             <div>
               <Link to={`/keys/${key._id}`} className="hover:underline">
                 <h3 className="font-semibold">
-                  <span>{key.keyName}</span> By: <span>{key.user.email}</span>
+                  <span>{key.keyName}</span> By: <span>{key?.user?.email}</span>
                 </h3>
               </Link>
 
@@ -67,7 +67,9 @@ function KeyList({ accessKeys, getStatusColor, isAdmin, handleRevoke }) {
               </div>
             </div>
             <div className="mt-4 flex justify-between items-center flex-wrap">
-              <span className="text-xs ">{key.key}</span>
+              <span className="text-xs whitespace-normal overflow-auto ">
+                {key.key}
+              </span>
               {key.status === "active" && !isAdmin && (
                 <button
                   onClick={() => handleCopy(key.key)}

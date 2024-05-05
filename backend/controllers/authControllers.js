@@ -8,16 +8,18 @@
  */
 
 const User = require("../models/UserModel");
-const { createToken } = require("../utils/token");
+const { attachCookiesToResponse } = require("../utils/token");
 const createHash = require("../utils/createHash");
 const asyncHandler = require("../utils/asyncHandler");
 const customError = require("../utils/customError");
+const Token = require("../models/TokenModel");
 
 const {
   sendEmailVerification,
   sendResetPasswordEmail,
 } = require("../utils/email");
 const crypto = require("crypto");
+const userObject = require("../utils/userObject");
 
 const register = asyncHandler(async (req, res, next) => {
   /**
@@ -92,22 +94,52 @@ const login = asyncHandler(async (req, res, next) => {
   if (!user) {
     return next(new customError("Invalid Credentials", 401));
   }
-
-  // if (user.isVerified === false) {
-  //   return next(new customError("Please verify your email to continue", 400));
-  // }
+  if (user.isVerified === false)
+    return next(new customError("Please verify your account to log in!"));
 
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
     return next(new customError("Invalid credentials", 401));
   }
 
-  const token = createToken({
-    payload: { id: user.id, email: user.email, role: user.role },
-  });
+  const tokenUser = userObject(user);
+  // create refresh token
+  let refreshToken = "";
+  // check for existing token
+  const existingToken = await Token.findOne({ user: user._id });
 
-  // Return success response with user data
-  res.status(200).json({ user: user, token });
+  if (existingToken) {
+    const { isValid } = existingToken;
+    if (!isValid) {
+      return next(customError("Invalid Credentials", 401));
+    }
+    refreshToken = existingToken.refreshToken;
+    attachCookiesToResponse({ res, user: tokenUser, refreshToken });
+    return;
+  }
+
+  refreshToken = crypto.randomBytes(40).toString("hex");
+  const userAgent = req.headers["user-agent"];
+  const ip = req.ip;
+  const userToken = { refreshToken, ip, userAgent, user: user._id };
+
+  await Token.create(userToken);
+
+  attachCookiesToResponse({ res, user: tokenUser, refreshToken });
+});
+
+const logout = asyncHandler(async (req, res, next) => {
+  /**
+   * @function:Logs out user
+   * @Finds and delete token from database
+   * @Clears cookies from browser
+   * @return:Returns a success message
+   */
+  await Token.findOneAndDelete({ user: req.user.id });
+
+  res.clearCookie("accessToken", { httpOnly: true });
+  res.clearCookie("refreshToken", { httpOnly: true });
+  res.status(200).json({ msg: "user logged out!" });
 });
 
 const forgotPassword = asyncHandler(async (req, res, next) => {
@@ -170,6 +202,10 @@ const resetPassword = asyncHandler(async (req, res, next) => {
 });
 
 const resendVerificationLink = asyncHandler(async (req, res, next) => {
+  /**
+   * @Allows user to ask for resend email verification link
+   *
+   */
   const { email } = req.params;
   const user = await User.findOne({ email });
 
@@ -188,6 +224,19 @@ const resendVerificationLink = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ msg: "Verification email link resent!" });
 });
 
+const getAllUsers = asyncHandler(async (req, res, next) => {
+  /**
+   * @return:Returns all users on the platform
+   */
+  const users = await User.find({ role: "school" }).select("-password");
+  if (!users) return next(new customError("No users on the platform yet", 404));
+  res.status(200).json({ users, count: users.length });
+});
+
+const loggedInUser = asyncHandler(async (req, res, next) => {
+  res.status(200).json({ user: req.user });
+});
+
 module.exports = {
   register,
   login,
@@ -195,4 +244,7 @@ module.exports = {
   forgotPassword,
   resetPassword,
   resendVerificationLink,
+  logout,
+  getAllUsers,
+  loggedInUser,
 };

@@ -23,9 +23,7 @@ const KeyPage = () => {
       try {
         setLoading(true);
         const response = await axios.get(`${API_URL}/keys/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true,
         });
         setKeyData(response.data);
         setLoading(false);
@@ -44,9 +42,7 @@ const KeyPage = () => {
         `${API_URL}/keys/revoke-key/${id}`,
         {},
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true,
         }
       );
       setRevoked(true);

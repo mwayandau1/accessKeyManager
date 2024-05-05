@@ -13,7 +13,14 @@ const {
   forgotPassword,
   resetPassword,
   resendVerificationLink,
+  logout,
+  getAllUsers,
+  loggedInUser,
 } = require("../controllers/authControllers");
+const {
+  authenticateUser,
+  authorizePermissions,
+} = require("../utils/authenticate");
 
 router.post("/register", register);
 router.post("/login", login);
@@ -22,5 +29,13 @@ router.patch("/reset-password/:token", resetPassword);
 
 router.post("/forgot-password", forgotPassword);
 router.get("/resend-email/:email", resendVerificationLink);
+router.delete("/logout", authenticateUser, logout);
+router.get(
+  "/schools",
+  authenticateUser,
+  authorizePermissions("admin"),
+  getAllUsers
+);
 
+router.get("/me", authenticateUser, loggedInUser);
 module.exports = router;
