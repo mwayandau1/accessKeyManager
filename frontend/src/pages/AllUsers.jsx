@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import formatDate from "../features/formatDate";
+import { useSelector } from "react-redux";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const User = () => {
+  const { user } = useSelector((state) => state.user);
+  const { token } = user;
+
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(`${API_URL}/auth/schools`, {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
         setUsers(response.data.users);
       } catch (error) {

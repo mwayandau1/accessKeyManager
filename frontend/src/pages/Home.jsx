@@ -14,7 +14,7 @@ const Home = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
 
   const { user } = useSelector((state) => state.user);
-  const { role } = user;
+  const { token, role } = user;
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -31,7 +31,9 @@ const Home = () => {
         `${API_URL}/keys`,
         { keyName: newKeyName },
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       setMessage(response.data.message);
@@ -49,7 +51,9 @@ const Home = () => {
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/keys`, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       setMessage(response.data.msg);
       setAccessKeys(response.data.keys);
@@ -69,7 +73,9 @@ const Home = () => {
         `${API_URL}/keys/revoke-key/${id}`,
         {},
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       setMessage(response.data);

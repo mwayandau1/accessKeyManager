@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 import formatDate from "../features/formatDate";
+import { useSelector } from "react-redux";
 
 const SearchKey = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +13,9 @@ const SearchKey = () => {
   const [message, setMessage] = useState("");
 
   const API_URL = import.meta.env.VITE_API_URL;
+
+  const { user } = useSelector((state) => state.user);
+  const { token } = user;
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -24,14 +28,16 @@ const SearchKey = () => {
           email,
         },
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       setKeyData(response.data.key[0]);
       setMessage(response.data.msg);
       console.log(response.data);
       if (response.data.key.length === 0) {
-        setError("User doesn't have a token");
+        setError("User doesn't have a key");
       }
       setLoading(false);
     } catch (error) {
@@ -52,9 +58,13 @@ const SearchKey = () => {
         `${API_URL}/keys/revoke-key/${keyData._id}`,
         {},
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
+      setRevoked(true);
+      setKeyData(null);
     } catch (error) {
       setRevoked(false);
       console.log("error by revoke", error);
