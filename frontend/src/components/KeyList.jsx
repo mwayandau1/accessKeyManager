@@ -26,8 +26,8 @@ function KeyList({ accessKeys, getStatusColor, isAdmin, handleRevoke }) {
   if (accessKeys.length <= 0)
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <p className="text-lg">
-          {isAdmin ? "No keys created yet" : "You do not have  key yet"}
+        <p className="text-lg font-bold text-red-500">
+          {isAdmin ? "No keys " : "No keys "}
         </p>
       </div>
     );

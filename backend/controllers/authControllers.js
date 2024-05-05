@@ -33,7 +33,7 @@ const register = asyncHandler(async (req, res, next) => {
   }
   const userAlreadyExist = await User.findOne({ email });
   if (userAlreadyExist) {
-    return next(new customError("This email is already in use!", 400));
+    return next(new customError("This email is already in use!", 409));
   }
   //Want to set the first user to register as Admin
   const isFirstUser = (await User.countDocuments({})) === 0;
@@ -90,16 +90,16 @@ const login = asyncHandler(async (req, res, next) => {
   }
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
-    return next(new customError("Invalid Credentials", 400));
+    return next(new customError("Invalid Credentials", 401));
   }
 
   if (user.isVerified === false) {
-    return next(new customError("Please verify your email to continue", 400));
+    return next(new customError("Please verify your email to continue", 403));
   }
 
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
-    return next(new customError("Invalid credentials", 400));
+    return next(new customError("Invalid credentials", 401));
   }
 
   const token = createToken({
@@ -160,11 +160,10 @@ const resetPassword = asyncHandler(async (req, res, next) => {
     passwordToken: createHash(token),
     passwordTokenExpirationDate: { $gt: Date.now() },
   });
-  if (!user) return next(new customError("Invalid token or has expired", 400));
+  if (!user) return next(new customError("Invalid token or has expired", 401));
   user.password = password;
   user.passwordToken = null;
   user.passwordTokenExpirationDate = null;
-  console.log("Set the null values of password token and expiry date");
   await user.save();
 
   res.status(200).json({ msg: "Your password has being reset successfully!" });
@@ -197,8 +196,11 @@ const getAllUsers = asyncHandler(async (req, res, next) => {
   /**
    * @return:Returns all users on the platform
    */
-  const users = await User.find({ role: "school" }).select("-password");
-  if (!users) return next(new customError("No users on the platform yet", 404));
+  const users = await User.find({ role: "school" })
+    .select("-password")
+    .sort({ createdAt: -1 });
+  if (!users?.length > 0)
+    return next(new customError("No users on the platform yet", 404));
   res.status(200).json({ users, count: users.length });
 });
 

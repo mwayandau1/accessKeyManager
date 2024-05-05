@@ -16,7 +16,7 @@ const {
   searchKeyBySchoolEmail,
 } = require("../controllers/keyControllers");
 
-router.post("/", authenticateUser, createKey);
+router.post("/", authenticateUser, authorizePermissions("school"), createKey);
 router.get("/", authenticateUser, getAllKeys);
 router.get("/:id", authenticateUser, getSingleKeyById);
 router.patch(
