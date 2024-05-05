@@ -147,7 +147,9 @@ const Home = () => {
       )}
 
       <div>
-        <h2 className="text-2xl font-bold mb-4 text-center">All Access Keys</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center capitalize">
+          {selectedFilter} Access Keys
+        </h2>
       </div>
       {loading ? (
         <LoadingSpinner />

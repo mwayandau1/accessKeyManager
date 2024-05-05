@@ -20,7 +20,7 @@ const createKey = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
   const { keyName } = req.body;
   if (!userId) {
-    return next(new customError("Please login to continue", 400));
+    return next(new customError("Please login to continue", 401));
   }
   const activeKey = await Key.findOne({ user: userId, status: "active" });
   if (activeKey) {
@@ -51,10 +51,10 @@ const getAllKeys = asyncHandler(async (req, res, next) => {
 
     const keys = await Key.find(query)
       .populate("user", "email")
-      .sort({ createdAt: -1 });
+      .sort({ procurementDate: -1 });
 
     if (!keys || keys.length === 0) {
-      return next(new customError("No keys found ", 404));
+      return next(new customError("No keys found", 404));
     }
 
     return res.status(200).json({ keys, count: keys.length });
@@ -113,18 +113,14 @@ const searchKeyBySchoolEmail = asyncHandler(async (req, res, next) => {
    * @return:Returns key if found with the email
    *
    */
-  console.log("entered here");
   const { email } = req.body;
-  console.log(email);
   if (email) {
     const user = await User.findOne({ email });
-    console.log(user);
     if (!user)
       return next(new customError("No user found with this email", 404));
     const userId = user.id;
-    console.log();
     const key = await Key.find({ user: userId, status: "active" });
-    if (!key)
+    if (!key || key.length === 0)
       return next(new customError("No active key found for this user", 404));
     return res.status(200).json({ key });
   }
