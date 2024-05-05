@@ -37,12 +37,12 @@ const Navbar = () => {
               </label>
               <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-white rounded-box w-52">
                 <NavLinks />
-                <p
-                  className="capitalize text-black mx-4 mt-2 "
+                <button
+                  className="capitalize text-black mx-4 mt-2  bg-transparent"
                   onClick={handleLogout}
                 >
                   logout
-                </p>
+                </button>
               </ul>
             </div>
           </div>
