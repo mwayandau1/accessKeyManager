@@ -19,9 +19,7 @@ describe("Key API Endpoints", () => {
       email: "test@example.com",
       password: "password",
     };
-    await mongoose.connect(
-      "mongodb+srv://ayandau:moses21311@nodeexpress.4nrmugq.mongodb.net/testAccessKeyManager"
-    );
+    await mongoose.connect(process.env.MONGO_TEST_URI);
 
     // Register user
     await request(app).post("/auth/register").send(userData);
