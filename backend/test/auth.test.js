@@ -29,9 +29,7 @@ const mockUser = {
 
 // Mock MongoDB connection before running tests
 beforeAll(async () => {
-  await mongoose.connect(
-    "mongodb+srv://ayandau:moses21311@nodeexpress.4nrmugq.mongodb.net/testAccessKeyManager"
-  );
+  await mongoose.connect(process.env.MONGO_TEST_URI);
   await User.create(mockUser);
 }, 15000);
 
