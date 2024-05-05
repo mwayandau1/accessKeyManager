@@ -16,7 +16,12 @@ app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 
 app.use(morgan("tiny"));
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://accesskeymanager.onrender.com"],
+    credentials: true,
+  })
+);
 app.set("trust proxy", true);
 
 app.use("/auth", authRoutes);
