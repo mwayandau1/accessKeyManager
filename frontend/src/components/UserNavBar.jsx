@@ -2,18 +2,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../features/redux/userSlice";
-import axios from "axios";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleLogout = async () => {
     try {
-      await axios.delete(`${API_URL}/auth/logout`, {
-        withCredentials: true,
-      });
+      localStorage.clear("user");
       dispatch(clearUser());
       navigate("/");
     } catch (error) {

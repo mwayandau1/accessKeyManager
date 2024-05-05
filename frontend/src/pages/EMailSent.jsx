@@ -1,17 +1,22 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import SmallSpinner from "../components/SmallSpinner";
 
 const EmailSentPage = () => {
   const [error, setError] = useState("");
   const { email } = useParams();
+  const [loading, setLoading] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL;
   const handleResendEmail = async () => {
+    setLoading(true);
     try {
       await axios.get(`${API_URL}/auth/resend-email/${email}`);
+      setLoading(false);
     } catch (error) {
       setError(error.response.data.msg);
+      setLoading(false);
     }
   };
 
@@ -26,6 +31,7 @@ const EmailSentPage = () => {
           <span className="font-semibold">{email}</span>. Please check your
           email and verify your account to continue
         </p>
+        {loading && <SmallSpinner />}
         {error && (
           <p className="text-center text-sm text-red-500 mb-4">{error}</p>
         )}

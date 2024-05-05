@@ -13,7 +13,6 @@ const {
   forgotPassword,
   resetPassword,
   resendVerificationLink,
-  logout,
   getAllUsers,
   loggedInUser,
 } = require("../controllers/authControllers");
@@ -29,7 +28,6 @@ router.patch("/reset-password/:token", resetPassword);
 
 router.post("/forgot-password", forgotPassword);
 router.get("/resend-email/:email", resendVerificationLink);
-router.delete("/logout", authenticateUser, logout);
 router.get(
   "/schools",
   authenticateUser,
