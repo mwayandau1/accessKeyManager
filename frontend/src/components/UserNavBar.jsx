@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { useDispatch } from "react-redux";
-import { clearUser } from "../features/redux/userReducer";
+import { clearUser } from "../features/redux/userSlice";
 import axios from "axios";
 
 const NavBar = () => {

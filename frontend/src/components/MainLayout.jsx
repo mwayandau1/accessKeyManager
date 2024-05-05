@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import UserNavBar from "./UserNavBar";
-import { clearUser, setUser } from "../features/redux/userReducer";
+import { clearUser, setUser } from "../features/redux/userSlice";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";

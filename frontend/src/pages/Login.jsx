@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../features/redux/userReducer";
+import { setUser } from "../features/redux/userSlice";
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
 import SmallSpinner from "../components/SmallSpinner";
