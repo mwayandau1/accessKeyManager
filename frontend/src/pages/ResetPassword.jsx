@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import SmallSpinner from "../components/SmallSpinner";
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -8,9 +9,11 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const API_URL = import.meta.env.VITE_API_URL;
 
   const handleResetPassword = async (e) => {
+    setLoading(true);
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
@@ -26,12 +29,12 @@ const ResetPassword = () => {
         }
       );
       setMessage(response.data.msg);
-      setEmail("");
-      setPassword("");
+      setLoading(false);
       navigate("/");
     } catch (error) {
       console.error("Error resetting password:", error);
       setMessage(error.response.data.msg || "Error resetting password");
+      setLoading(false);
     }
   };
 
@@ -77,6 +80,7 @@ const ResetPassword = () => {
           >
             Reset Password
           </button>
+          {loading && <SmallSpinner />}
         </form>
       </div>
     </div>
