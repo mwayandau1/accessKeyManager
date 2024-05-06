@@ -37,7 +37,7 @@ Access Key Manager is a web application designed  for Micro-Focus Inc to help sc
 - **Authentication**: JWT (JSON Web Tokens)
 
 ## Environment Setup(.env)
-### Backend folder
+### Backend folder(.env)
 - PORT=5000
 - MONGO_URI ="Your_mongoDb Url"
 
@@ -46,7 +46,7 @@ Access Key Manager is a web application designed  for Micro-Focus Inc to help sc
 
 - APP_PASSWORD="Your google app password"
 - EMAIL="Your real email account"
-### Frontend folder
+### Frontend folder(.env)
 - VITE_API_URL ="http://localhost:5000"
 - ##VITE_API_URL ="https://accesskeymanagerbackend.onrender.com"
 
