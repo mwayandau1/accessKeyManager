@@ -83,7 +83,7 @@ describe("Key API Endpoints", () => {
         "message",
         "Key generated successfully"
       );
-      expect(response.body).toHaveProperty("key");
+      expect(response.body).toHaveProperty("newKey");
     }, 10000);
 
     it("should return an error if the user is not logged in", async () => {

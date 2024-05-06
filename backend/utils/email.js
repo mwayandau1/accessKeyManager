@@ -48,12 +48,10 @@ const sendEmailVerification = async ({ email, verificationToken }) => {
    * @param:email, and verificationToken
    * return:Send an email to user
    */
-  const verifyEmail = `https://accesskeymanager.onrender.com/verify-email/${verificationToken}`;
-  console.log(verifyEmail);
+  const verifyEmail = `https://accesskeymanagerbackend.onrender.com/verify-email/${verificationToken}`;
 
   const message = `<p>Please confirm your email by clicking on the following link :
     <a href="${verifyEmail}">Verify Email</a> </p>`;
-  console.log(message);
 
   return await sendEmail({
     to: email,

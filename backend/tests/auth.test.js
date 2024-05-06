@@ -109,7 +109,10 @@ describe("Authentication Controller", () => {
       const response = await request(app)
         .get(`/auth/verify-email/${mockUser.verificationToken}`)
         .expect(200);
-      expect(response.body).toHaveProperty("msg", "Email Verified");
+      expect(response.body).toHaveProperty(
+        "msg",
+        "Email Verified. Please go on to login"
+      );
     }, 10000);
   });
 

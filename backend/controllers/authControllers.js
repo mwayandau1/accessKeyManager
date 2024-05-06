@@ -75,7 +75,7 @@ const verifyEmail = asyncHandler(async (req, res, next) => {
 
   await user.save();
 
-  res.status(200).json({ msg: "Email Verified" });
+  res.status(200).json({ msg: "Email Verified. Please go on to login" });
 });
 const login = asyncHandler(async (req, res, next) => {
   /***
