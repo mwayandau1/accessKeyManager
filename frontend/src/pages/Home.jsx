@@ -42,7 +42,6 @@ const Home = () => {
       handleFetchKeys();
     } catch (error) {
       setCreatingKey(false);
-      console.log(error);
       setMessage(error.response?.data?.msg || "An error occurred");
     }
   };
@@ -57,7 +56,6 @@ const Home = () => {
       });
       setMessage(response.data.msg);
       setAccessKeys(response.data.keys);
-      console.log(response.data.keys);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -67,7 +65,6 @@ const Home = () => {
   };
 
   const handleRevoke = async (id) => {
-    console.log("The id of the key passed", id);
     try {
       const response = await axios.patch(
         `${API_URL}/keys/revoke-key/${id}`,
@@ -79,7 +76,6 @@ const Home = () => {
         }
       );
       setMessage(response.data);
-      console.log(response.data);
       handleFetchKeys();
     } catch (error) {
       console.error("Error revoking key:", error);

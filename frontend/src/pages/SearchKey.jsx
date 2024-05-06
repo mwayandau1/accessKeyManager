@@ -35,13 +35,11 @@ const SearchKey = () => {
       );
       setKeyData(response.data.key[0]);
       setMessage(response.data.msg);
-      console.log(response.data);
       if (response.data.key.length === 0) {
         setError("User doesn't have a key");
       }
       setLoading(false);
     } catch (error) {
-      console.log("error by search", error);
       setError(
         error.response.data.msg || "No active key found for the entered email."
       );
@@ -67,7 +65,6 @@ const SearchKey = () => {
       setKeyData(null);
     } catch (error) {
       setRevoked(false);
-      console.log("error by revoke", error);
       setError(error.response.data.msg || "Error revoking key");
     }
   };
