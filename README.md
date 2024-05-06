@@ -2,6 +2,12 @@
 
 Access Key Manager is a web application designed  for Micro-Focus Inc to help schools to generate access key to activate their school account It provides features such as user registration, login, key search,email verification and password reset functionality.
 
+## Link to the deployed app
+- https://accesskeymanager.onrender.com
+- Deployed version be very slow due to render free tier
+
+
+
 ## Features
 
 - **User Registration**: Allows new users to create an account by providing their email and password.
@@ -54,21 +60,17 @@ Access Key Manager is a web application designed  for Micro-Focus Inc to help sc
 # Frontend Demo
 ## Admin Page
 
-- ![Screenshot from 2024-05-06 08-49-18](https://github.com/mwayandau1/accessKeyManager/assets/105015464/95bd3b8e-efd8-4fb3-b22d-4fc9023ab8a0)
+- ![Screenshot from accessKeyManager](https://github.com/mwayandau1/accessKeyManager/blob/main/frontend/src/assets/admin.png)
 
-- ![Screenshot from 2024-05-06 08-49-37](https://github.com/mwayandau1/accessKeyManager/assets/105015464/ca343ab7-349e-4c53-9962-072a2376ee9e)
+- ![Screenshot from accessKeyManager](https://github.com/mwayandau1/accessKeyManager/blob/main/frontend/src/assets/admin2.png)
 
-- ![Screenshot from 2024-05-06 08-49-46](https://github.com/mwayandau1/accessKeyManager/assets/105015464/e084cafb-c6e7-4677-a5c5-b8f339a47a88)
+- ![Screenshot from accessKeyManager](https://github.com/mwayandau1/accessKeyManager/blob/main/frontend/src/assets/admin3..png)
 - ## Customer (School Admin) Page
 
-- ![Screenshot from 2024-05-06 08-50-20](https://github.com/mwayandau1/accessKeyManager/assets/105015464/0f85abc0-5383-4a20-bce5-cb3e12a35daa)
+- ![Screenshot from accessKeyManager](https://github.com/mwayandau1/accessKeyManager/blob/main/frontend/src/assets/user1.png)
 
 ## API Documentation
 - https://documenter.getpostman.com/view/28559837/2sA3JDh5Xv
-## Link to the deployed app
-- https://accesskeymanager.onrender.com
-- Deployed version be very slow due to render free tier
-
 
 ## Installation
 
