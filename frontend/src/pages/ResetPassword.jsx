@@ -17,6 +17,7 @@ const ResetPassword = () => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
+      setLoading(false);
       return;
     }
     console.log(token);
