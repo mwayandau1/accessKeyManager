@@ -12,6 +12,7 @@ const createHash = require("../utils/createHash");
 const asyncHandler = require("../utils/asyncHandler");
 const customError = require("../utils/customError");
 const { createToken } = require("../utils/token");
+const path = require("path");
 
 const {
   sendEmailVerification,
@@ -66,7 +67,9 @@ const verifyEmail = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ verificationToken: token });
 
   if (!user) {
-    return next(new customError("Verification Failed", 400));
+    return res
+      .status(400)
+      .sendFile(path.join(__dirname, "../views/verifyFail.html"));
     // return res.status(400).jso({"msg": "error wrong message"})
   }
 
@@ -75,7 +78,7 @@ const verifyEmail = asyncHandler(async (req, res, next) => {
 
   await user.save();
 
-  res.status(200).json({ msg: "Email Verified. Please go on to login" });
+  res.status(200).sendFile(path.join(__dirname, "../views/verifySuccess.html"));
 });
 const login = asyncHandler(async (req, res, next) => {
   /***
