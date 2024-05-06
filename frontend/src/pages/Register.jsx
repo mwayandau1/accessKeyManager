@@ -24,14 +24,10 @@ const Register = () => {
       });
       setMessage(response.data.msg);
       setLoading(false);
-      setEmail("");
-      setPassword("");
       navigate(`/email-sent/${email}`);
     } catch (error) {
       console.error("Error:", error);
       setErrorMessage(error?.response?.data?.msg || "An error occurred");
-      setEmail("");
-      setPassword("");
       setLoading(false);
     }
   };
