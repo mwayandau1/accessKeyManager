@@ -48,7 +48,7 @@ const sendEmailVerification = async ({ email, verificationToken }) => {
    * @param:email, and verificationToken
    * return:Send an email to user
    */
-  const verifyEmail = `https://accesskeymanagerbackend.onrender.com/auth/verify-email/${verificationToken}`;
+  const verifyEmail = `${process.env.BACKEND_EMAIL_VERIFICATION}/auth/verify-email/${verificationToken}`;
 
   const message = `<p>Please confirm your email by clicking on the following link :
     <a href="${verifyEmail}">Verify Email</a> </p>`;
