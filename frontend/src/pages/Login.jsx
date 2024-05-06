@@ -33,12 +33,14 @@ const Login = () => {
       };
       localStorage.setItem("user", JSON.stringify(user));
       dispatch(setUser(user));
-      navigate("/home");
       setLoading(false);
+      setPassword("");
+      navigate("/home");
     } catch (error) {
       console.error("Error:", error);
       setMessage(error?.response?.data?.msg || "An error occurred");
       setLoading(false);
+      setPassword("");
     }
   };
 

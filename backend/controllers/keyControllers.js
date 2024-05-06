@@ -30,7 +30,7 @@ const createKey = asyncHandler(async (req, res, next) => {
   const key = generateKey();
   const newKey = new Key({ keyName, key, user: userId });
   await newKey.save();
-  res.status(201).json({ message: "Key generated successfully", key });
+  res.status(201).json({ message: "Key generated successfully", newKey });
 });
 
 const getAllKeys = asyncHandler(async (req, res, next) => {

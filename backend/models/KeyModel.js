@@ -24,12 +24,18 @@ const keySchema = new mongoose.Schema({
   },
 });
 
+//Indexes to make quick queries
 keySchema.index({ key: 1 }, { unique: true });
 keySchema.index({ user: 1 });
 keySchema.index({ status: 1 });
 
-keySchema.virtual("isExpired").get(function () {
-  return this.status === "expired" || this.expiryDate < Date.now();
+//Pre hook function to automatically set status to expiry if the date has expired
+keySchema.pre(["find", "findOne"], async function () {
+  const now = new Date();
+  await this.model.updateMany(
+    { expiryDate: { $lt: now }, status: "active" },
+    { status: "expired" }
+  );
 });
 
 module.exports = mongoose.model("Key", keySchema);
