@@ -4,6 +4,7 @@ import axios from "axios";
 import InputField from "../components/InputField";
 import SmallSpinner from "../components/SmallSpinner";
 import CustomButton from "../components/CustomButton";
+import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -36,6 +37,7 @@ const ForgotPassword = () => {
           Forgot Password?
         </h2>
         {message && <p className="text-center mb-4">{message}</p>}
+
         <form onSubmit={handleForgotPassword} method="POST">
           <div className="mb-4">
             <InputField
@@ -46,6 +48,9 @@ const ForgotPassword = () => {
               label="Email"
             />
           </div>
+          <Link to="/" className="text-blue-500 my-4 hover:underline text-2xl">
+            Login
+          </Link>
           <CustomButton>Continue</CustomButton>
 
           {loading && <SmallSpinner />}
