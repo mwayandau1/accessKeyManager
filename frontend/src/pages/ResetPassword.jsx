@@ -26,6 +26,8 @@ const ResetPassword = () => {
         }
       );
       setMessage(response.data.msg);
+      setEmail("");
+      setPassword("");
       navigate("/");
     } catch (error) {
       console.error("Error resetting password:", error);
@@ -72,7 +74,6 @@ const ResetPassword = () => {
           <button
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-md w-full"
-            disabled={password !== confirmPassword || !password}
           >
             Reset Password
           </button>

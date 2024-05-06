@@ -23,9 +23,9 @@ const Register = () => {
         password,
       });
       setMessage(response.data.msg);
-      setLoading(false);
       setEmail("");
       setPassword("");
+      setLoading(false);
       navigate(`/email-sent/${email}`);
     } catch (error) {
       console.error("Error:", error);
