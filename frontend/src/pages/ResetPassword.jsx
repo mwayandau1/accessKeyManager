@@ -20,7 +20,6 @@ const ResetPassword = () => {
       setLoading(false);
       return;
     }
-    console.log(token);
 
     try {
       const response = await axios.patch(

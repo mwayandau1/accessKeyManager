@@ -14,9 +14,7 @@ function KeyList({ accessKeys, getStatusColor, isAdmin, handleRevoke }) {
 
     navigator.clipboard
       .writeText(key)
-      .then(() => {
-        console.log("Key copied to clipboard");
-      })
+      .then(() => {})
       .catch((error) => {
         console.error("Error copying key to clipboard:", error);
       });
