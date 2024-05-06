@@ -26,6 +26,8 @@ const ResetPassword = () => {
         }
       );
       setMessage(response.data.msg);
+      setEmail("");
+      setPassword("");
       navigate("/");
     } catch (error) {
       console.error("Error resetting password:", error);

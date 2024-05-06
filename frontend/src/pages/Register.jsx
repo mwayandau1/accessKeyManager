@@ -23,11 +23,15 @@ const Register = () => {
         password,
       });
       setMessage(response.data.msg);
+      setEmail("");
+      setPassword("");
       setLoading(false);
       navigate(`/email-sent/${email}`);
     } catch (error) {
       console.error("Error:", error);
       setErrorMessage(error?.response?.data?.msg || "An error occurred");
+      setEmail("");
+      setPassword("");
       setLoading(false);
     }
   };
