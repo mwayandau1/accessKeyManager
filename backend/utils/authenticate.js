@@ -76,7 +76,7 @@ const authorizePermissions = (...roles) => {
    */
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return next(new CustomError("Unauthorized to access this route", 500));
+      return next(new CustomError("Unauthorized to access this route", 403));
     }
     next();
   };
