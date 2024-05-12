@@ -54,7 +54,7 @@ Access Key Manager is a web application designed  for Micro-Focus Inc to help sc
 - EMAIL="Your real email account"
 ### Frontend folder(.env)
 - VITE_API_URL ="http://localhost:5000"
-- ##VITE_API_URL ="https://accesskeymanagerbackend.onrender.com"
+- ##VITE_API_URL ="deployed backend link"
 
 
 # Frontend Demo
