@@ -14,7 +14,7 @@ const Navbar = () => {
       localStorage.clear("user");
 
       dispatch(clearUser());
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.error("Error logging out:", error);
       throw error;
@@ -27,7 +27,10 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
             {/* TITLE */}
-            <NavLink to="/" className="hidden lg:flex font-bold text-xl mr-4">
+            <NavLink
+              to="/home"
+              className="hidden lg:flex font-bold text-xl mr-4"
+            >
               <Logo />
             </NavLink>
             {/* DROPDOWN */}
