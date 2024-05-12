@@ -14,7 +14,7 @@ const Navbar = () => {
       localStorage.clear("user");
 
       dispatch(clearUser());
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error("Error logging out:", error);
       throw error;
