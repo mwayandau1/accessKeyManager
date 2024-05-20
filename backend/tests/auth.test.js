@@ -132,7 +132,7 @@ describe("Authentication Controller", () => {
         .post("/auth/login")
         .send({ email: "nonexistent@example.com", password: "invalidPassword" })
         .expect(401);
-      expect(response.body).toHaveProperty("msg", "Invalid Credentials");
+      expect(response.body).toHaveProperty("msg", "Invalid credentials");
     }, 10000);
     it("should return an error if email is missing", async () => {
       const response = await request(app)
@@ -174,6 +174,19 @@ describe("Authentication Controller", () => {
       const response = await request(app)
         .post("/auth/login")
         .send({ email: "test4@gmail.com", password: "wrongPassword" })
+        .expect(401);
+      expect(response.body).toHaveProperty("msg", "Invalid credentials");
+    }, 10000);
+
+    it("should return an error for incorrect email", async () => {
+      await User.create({
+        ...userData,
+        email: "test655@gmail.com",
+        isVerified: true,
+      });
+      const response = await request(app)
+        .post("/auth/login")
+        .send({ email: "test4754@gmail.com", password: "password" })
         .expect(401);
       expect(response.body).toHaveProperty("msg", "Invalid credentials");
     }, 10000);
