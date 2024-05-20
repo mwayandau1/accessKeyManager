@@ -96,13 +96,13 @@ const login = asyncHandler(async (req, res, next) => {
     return next(new customError("Invalid Credentials", 401));
   }
 
-  if (user.isVerified === false) {
-    return next(new customError("Please verify your email to continue", 403));
-  }
-
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
     return next(new customError("Invalid credentials", 401));
+  }
+
+  if (user.isVerified === false) {
+    return next(new customError("Please verify your email to continue", 403));
   }
 
   const token = createToken({

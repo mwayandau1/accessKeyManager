@@ -79,10 +79,7 @@ describe("Key API Endpoints", () => {
         .send(keyData);
 
       expect(response.statusCode).toBe(201);
-      expect(response.body).toHaveProperty(
-        "message",
-        "Key generated successfully"
-      );
+      expect(response.body).toHaveProperty("msg", "Key generated successfully");
       expect(response.body).toHaveProperty("newKey");
     }, 10000);
 
