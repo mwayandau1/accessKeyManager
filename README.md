@@ -78,12 +78,6 @@ Access Key Manager is a web application designed  for Micro-Focus Inc to help sc
 
 ```bash
 git clone https://github.com/mwayandau1/accessKeyManager.git
-cd accessKeyManager/frontend
-npm install
-cd ..
-cd backend
-npm install
-npm start
 
 
 
